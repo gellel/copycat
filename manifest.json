@@ -24,7 +24,7 @@
   "content_scripts": [
     {
       "js": ["js/lib/prototypes.js", "js/content/content.js"],
-      "all_frames": true,
+      "all_frames": false,
       "run_at" : "document_start", /** document_idle **/
       "matches": ["http://*/*", "https://*/*"]
     }
