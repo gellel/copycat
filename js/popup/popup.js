@@ -13,4 +13,6 @@ extensionPort.onMessage.addListener(function (eventData) {
 
 	console.log(eventData)
 
+	chrome.browserAction.setBadgeText({ text: '' })
+
 });

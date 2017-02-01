@@ -6,9 +6,9 @@ chrome.commands.onCommand.addListener(function (command) {
 		// Request information from content script appended to active tab.
 		chrome.tabs.sendMessage(tabs[0].id, { copycat: { status: 'sending', from: 'event.js' } }, function (contentReply) {
 			// Manage response from content script on active tab.
-			chrome.browserAction.getBadgeText({ tabId: tabs[0].id }, function (text) {
+			chrome.browserAction.getBadgeText({}, function (text) {
 
-				text = ((typeof text === 'string') && (!isNaN(parseInt(text)))) ? parseInt(text) + 1 : 0
+				text = ((typeof text === 'string') && (!isNaN(parseInt(text)))) ? parseInt(text) + 1 : 1;
 
 				chrome.browserAction.setBadgeText({ text: text.toString() })
 
