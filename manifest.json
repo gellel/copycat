@@ -9,9 +9,8 @@
 	"description": "copycat stores your copies!",
 
 	"background": {
-		"scripts": [
-			"js/background/background.js"
-		]
+		"scripts": ["js/event/event.js"],
+		"persistent": false
 	},
 
 	"browser_action": {
@@ -47,8 +46,8 @@
 	"commands": {
 		"copycat": {
 			"suggested_key": {
-				"default": "Ctrl+Shift+C",
-				"mac": "Command+Shift+C"
+				"default": "Ctrl+Shift+E",
+				"mac": "Command+Shift+E"
 			},
 			"description": "Copies selected string to copycat database."
 		}
