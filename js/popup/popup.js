@@ -2,7 +2,7 @@
 let extensionPort = chrome.extension.connect({ name: 'copycat' });
 
 // Post message to event script. Inititalises shared data fetch.
-extensionPort.postMessage({ copycat: { status: 'sent', from: 'popup.js' } });
+extensionPort.postMessage({ copycat: { status: 'sent', from: 'popup.js', action: 'established_connection' } });
 
 // Register message listener from event script. 
 extensionPort.onMessage.addListener(function (message, sender) {
