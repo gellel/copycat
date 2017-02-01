@@ -6,7 +6,7 @@
 	"homepage_url": "https://github.com/gellel/copycat",
 
 	"default_locale": "en",
-	"description": "copycat stores your copies!",
+	"description": "Copycat stores your copies! Meow!",
 
 	"background": {
 		"scripts": ["js/event/event.js"],
@@ -49,7 +49,7 @@
 				"default": "Ctrl+Shift+E",
 				"mac": "Command+Shift+E"
 			},
-			"description": "Copies selected string to copycat database."
+			"description": "Copycat collection hotkey."
 		}
 	},
 
