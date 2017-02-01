@@ -1,13 +1,16 @@
 // Register connection port.
 let extensionPort = chrome.extension.connect({ name: 'copycat' });
 
-// Request information from event script.
-extensionPort.postMessage({status:'copycat_opened'});
+// Post message to event script. Inititalises fetch.
+extensionPort.postMessage({ copycat: { status: 'sending', from: 'popup.js' } });
 
 // Register message listener from event script. 
-extensionPort.onMessage.addListener(function (copycat) {
-	//
-	document.body.insertNode('p', 'HELLO FROM COPYCAT')
-	console.log(copycat)
+extensionPort.onMessage.addListener(function (eventData) {
+	
+	document.body.style.cssText = 'width:200px;height:200px;';
+
+	document.body.insertTextNode("HIIII")
+
+	console.log(eventData)
 
 });
