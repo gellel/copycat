@@ -25,7 +25,7 @@ chrome.commands.onCommand.addListener(function (command) {
 });
 
 // Register listener for user opening Chrome extension popup page. 
-chrome.extension.onConnect.addListener(function (extensionPort) {
+chrome.runtime.onConnect.addListener(function (extensionPort) {
 	// Handle connection request from Chrome extension popup page.
 	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
 		// Handle action context for Chrome extension popup.
