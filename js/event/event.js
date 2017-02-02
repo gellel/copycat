@@ -1,3 +1,4 @@
+// Set empty array to contain shared data.
 content = new Array();
 
 // Register command hotkey listener. Awaits cmd+shift+e pattern.
