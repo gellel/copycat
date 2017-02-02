@@ -10,5 +10,5 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	// Manage message response to event script.
 	// Share status object and page content selection.
 	// Stringify content to prevent CORS issue.
-	sendResponse({ copycat: { type: 'message', from: 'content.js', to: 'event.js', context: 'extension_fetched_content' }, content: JSON.stringify({ page: window.location, selection: window.getSelection().toString() }) });
+	sendResponse({ copycat: { type: 'message', from: 'content.js', to: 'event.js', event: 'extension_fetched_content' }, content: JSON.stringify({ page: window.location, selection: window.getSelection().toString() }) });
 });

@@ -18,7 +18,7 @@ chrome.commands.onCommand.addListener(function (command) {
 		// Find browser active tab.
 		// Send message to content script for active tab.
 		// Share status object.
-		chrome.tabs.sendMessage(tabs[0].id, { copycat: { type: 'message', from: 'event.js', to: 'content.js', context: 'extension_pattern_typed' } }, function (message) {
+		chrome.tabs.sendMessage(tabs[0].id, { copycat: { type: 'message', from: 'event.js', to: 'content.js', event: 'extension_pattern_typed' } }, function (message) {
 			// Manage active tab message response.
 			chrome.browserAction.getBadgeText({}, function (text) {
 				// Append message content to shared resource array.
@@ -35,14 +35,14 @@ chrome.commands.onCommand.addListener(function (command) {
 chrome.runtime.onConnect.addListener(function (extensionPort) {
 	// Manage connection from popup page.
 	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
-		// Handle popup page connection context.
-		switch (message.copycat.action) {
+		// Handle popup message event context.
+		switch (message.copycat.event) {
 			// Extension opened.
 			// User has opened CopyCat extension.
 			case 'extension_opened_popup':
 				// Send message to popup script.
 				// Share status object and sharec content array.
-				extensionPort.postMessage({ copycat: { type: 'message', from: 'event.js', to: 'popup.js', context: 'extension_connection_popup' }, content: content });
+				extensionPort.postMessage({ copycat: { type: 'message', from: 'event.js', to: 'popup.js', event: 'extension_connection_popup' }, content: content });
 				// End case.
 				break;
 			// Extension accepted data.
