@@ -1,3 +1,10 @@
+/*
+ *	Popup script for browser extension.
+ *	Manages communication between event.js and popup.js.
+ *	File appended to popup page.
+*/
+
+
 const name = 'copycat';
 
 // Register extension connection port.

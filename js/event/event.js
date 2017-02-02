@@ -1,3 +1,13 @@
+/*
+ *	Event script for browser extension.
+ *	Manages communication between content.js and popup.js.
+ *	File appended to background page.
+*/
+
+
+// Extension shared content array.
+// Holds content passed from content script.
+// Shares content to popup script.
 content = new Array();
 
 
@@ -30,18 +40,19 @@ chrome.runtime.onConnect.addListener(function (extensionPort) {
 			// Extension opened.
 			// User has opened CopyCat extension.
 			case 'extension_opened':
-
+				// Send message to popup script.
+				// Share status object and sharec content array.
 				extensionPort.postMessage({ copycat: { type: 'message', from: 'event.js', to: 'popup.js', context: 'extension_connection_popup' }, content: content });
-				
+				// End case.
 				break;
-			// Extension responded to event script.
-			// Application has processed initial connection.
+			// Extension accepted data.
+			// User data has been processed by CopyCat.
 			case 'extension_accepted_data':
-				
+				// Set extension badge to emtpy.
 				chrome.browserAction.setBadgeText({ text: '' });
-				
+				// Empty content array.
 				content.empty();
-				
+				// End case.				
 				break;
 		}
 	});
