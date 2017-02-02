@@ -11,7 +11,7 @@ const name = 'copycat';
 let extensionPort = chrome.runtime.connect({ name: name });
 
 // Post message to event script. Establishes initial connection.
-extensionPort.postMessage({ copycat: { status: 'sent', from: 'popup.js', action: 'extension_opened' } });
+extensionPort.postMessage({ copycat: { status: 'sent', from: 'popup.js', action: 'extension_opened_popup' } });
 
 // Register message listener from event script. 
 extensionPort.onMessage.addListener(function (message, sender) {

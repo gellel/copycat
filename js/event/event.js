@@ -39,7 +39,7 @@ chrome.runtime.onConnect.addListener(function (extensionPort) {
 		switch (message.copycat.action) {
 			// Extension opened.
 			// User has opened CopyCat extension.
-			case 'extension_opened':
+			case 'extension_opened_popup':
 				// Send message to popup script.
 				// Share status object and sharec content array.
 				extensionPort.postMessage({ copycat: { type: 'message', from: 'event.js', to: 'popup.js', context: 'extension_connection_popup' }, content: content });
