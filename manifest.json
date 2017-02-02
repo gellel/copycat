@@ -61,7 +61,8 @@
 		"activeTab",
 		"tabs", 
 		"http://*/*", 
-		"https://*/*"
+		"https://*/*",
+		"storage"
 	],
 
 	"options_ui": {
