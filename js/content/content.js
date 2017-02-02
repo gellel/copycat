@@ -1,5 +1,5 @@
 // Register message listener from event script. 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	// Respond to event script.
-	sendResponse({ copycat: { status: 'replied', from: 'content.js', action: 'copied_data' }, content: { url: '', foo: true, bar: false, selection: window.getSelection() } });
+	sendResponse({ copycat: { status: 'replied', from: 'content.js', action: 'copied_data' }, content: JSON.stringify({ window: window.location, content: window.getSelection().toString() }) });
 });

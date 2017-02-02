@@ -1,4 +1,4 @@
-collections = new Array();
+content = new Array();
 
 // Register command hotkey listener. Awaits cmd+shift+e pattern.
 chrome.commands.onCommand.addListener(function (command) {
@@ -6,13 +6,10 @@ chrome.commands.onCommand.addListener(function (command) {
 	chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
 		// Request information from content script appended to active tab.
 		chrome.tabs.sendMessage(tabs[0].id, { copycat: { status: 'sent', from: 'event.js', action: 'command_run' } }, function (message) {
-			console.log(message, '??')
 			// Manage response from content script on active tab.
 			chrome.browserAction.getBadgeText({}, function (text) {
 				// Incriment Chrome extension badge copies count.
-				chrome.browserAction.setBadgeText({ text: (!isNaN(parseInt(text)) ? parseInt(text) + 1 : 1).toString() });
-				// Append selected content from content script.
-				console.log(message)
+				chrome.browserAction.setBadgeText({ text: content.append(message.content).set().length.toString() });
 			});
 		});
 	});
@@ -27,14 +24,14 @@ chrome.extension.onConnect.addListener(function (extensionPort) {
 			// Initial connection.
 			case 'extension_opened':
 				// Dispatch response to extension popup page.
-				extensionPort.postMessage({ copycat: { status: 'replied', from: 'event.js', action: 'shared_data' }, collections: collections });
+				extensionPort.postMessage({ copycat: { status: 'replied', from: 'event.js', action: 'shared_data' }, content: Array.from(new Set(content)) });
 				break;
 			// Managed data share from event script.
 			case 'extension_accepted_data':
 				// Reset badge.
 				chrome.browserAction.setBadgeText({ text: '' });
 				// Reset data array.
-				collections = new Array();
+				content = new Array();
 				break;
 		}
 	});

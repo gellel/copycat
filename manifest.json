@@ -9,7 +9,7 @@
 	"description": "Copycat stores your copies! Meow!",
 
 	"background": {
-		"scripts": ["js/event/event.js"],
+		"scripts": ["js/lib/prototypes.js", "js/event/event.js"],
 		"persistent": false
 	},
 
@@ -31,15 +31,13 @@
 	"content_scripts": [
 		{
 			"js": [
-				"js/lib/prototypes.js", 
 				"js/content/content.js"
 			],
 			"matches": [
 				"http://*/*", 
 				"https://*/*"
 			],
-			"run_at" : "document_start",
-			"all_frames": false
+			"run_at" : "document_start"
 		}
 	],
 
