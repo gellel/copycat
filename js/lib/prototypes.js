@@ -1,7 +1,7 @@
 /**
- * Extension methods for Copycat Chrome extension.
- * Modifies JavaScript Array, Element, NodeList, HTMLCollection.
- * Scoped to Copycat popup.html window.
+ * Chrome Extension-Application-Script.
+ * Initialised in Event-Page, Popup-Page.
+ * Reserved for Chrome Extension scope.
 **/
 
 Array.prototype.append = function () {
