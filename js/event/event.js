@@ -1,3 +1,11 @@
+/**
+ * Chrome Event-Script.
+ * Manages Event-Script to Content-Script, Active-Tab communication.
+ * Manages Event-Script to Popup-Script, Popup-Tab communication.
+ * Inititalised across all Chrome instances and windows.
+**/
+
+
 // Set empty array to contain shared data.
 content = new Array();
 
