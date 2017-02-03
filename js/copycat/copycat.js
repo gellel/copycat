@@ -43,6 +43,5 @@ class CopyCat {
 		return CopyCat.browser.runtime.getManifest();
 	}
 
-
 };
 

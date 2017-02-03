@@ -13,16 +13,17 @@ let extensionPort = chrome.runtime.connect({ name: name });
 
 // Establishes initial connection.
 // Send message to event script confirming connection.
-extensionPort.postMessage({ copycat: { type: 'message', from: 'popup.js.js', to: 'event.js', event: 'extension_opened_popup' } });
+extensionPort.postMessage({ event: 'popup_page_opened' });
 
 // Register message listener from event script. 
 extensionPort.onMessage.addListener(function (message, sender) {
 	// Post message to event script. Manages status and application cleanup.
-	extensionPort.postMessage({ copycat: { type: 'message', from: 'content.js', to: 'event.js', event: 'extension_accepted_data' } });
+	extensionPort.postMessage({ event: 'popup_page_reading_copies' });
 	
 	document.body.style.cssText = 'width:200px;height:200px;';
 
-	console.log(message.content)
+	console.log(message)
+
 
 });
 

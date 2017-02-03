@@ -5,55 +5,74 @@
 */
 
 
-// Extension shared content array.
-// Holds content passed from content script.
-// Shares content to popup script.
-content = new Array();
+CopyCat.copies = new Array();
 
 
-// Extension key pattern handler.
-chrome.commands.onCommand.addListener(function (command) {
-	// Manage CopyCat copy text key pattern.
-	chrome.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
-		// Find browser active tab.
-		// Send message to content script for active tab.
-		// Share status object.
-		chrome.tabs.sendMessage(tabs[0].id, { copycat: { type: 'message', from: 'event.js', to: 'content.js', event: 'extension_pattern_typed' } }, function (message) {
-			// Manage active tab message response.
-			chrome.browserAction.getBadgeText({}, function (text) {
-				// Append message content to shared resource array.
-				// Empty duplicate data from array.
-				// Set extension badge to content length.
-				chrome.browserAction.setBadgeText({ text: content.append(message.page).set().length.toString() });
-			});
+CopyCat.browser.commands.onCommand.addListener(function (command) {
+	/**
+	*** Manage extension key patterns.
+	*
+	* Commands registered for browser instance.
+	* Awaits pattern used in opened browser. 
+	* Key pattern required to match command/control+shift+e.
+	*
+	*** Find selected tab.
+	*
+	* Fetches ID for current active tab.
+	* Active tabs are registered across different browser windows and instances.
+	* Throws error if extension internals are being inspected and pattern performed.
+	*
+	** Send message to active tab script.
+	*
+	* Message response must be object.
+	* Message object contains empty object argument.
+	* Assumes content script is to find page data from active tab and highlighted text.
+	*
+	**/
+
+	CopyCat.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+
+		CopyCat.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
+
+			CopyCat.browser.browserAction.setBadgeText({ text: CopyCat.copies.append(message.page).set().length.toString() });
+
 		});
 	});
 });
 
 
-// Extension popup connection handler.
-chrome.runtime.onConnect.addListener(function (extensionPort) {
-	// Manage connection from popup page.
+CopyCat.browser.runtime.onConnect.addListener(function (extensionPort) {
+	/**
+	*** Manage extension popup opened.
+	*
+	* Connection registered across all browser instances.
+	* Requires user to open main extension. 
+	* Closing popup terminates connection.
+	*
+	*** Manage popup page message.
+	*
+	* Message object set from opened extension page.
+	* Sender object contains extension id.
+	* Response function dispatches message to popup page page.
+	*
+	**/
+
 	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
-		// Handle popup message event context.
-		switch (message.copycat.event) {
-			// Extension opened.
-			// User has opened CopyCat extension.
-			case 'extension_opened_popup':
-				// Send message to popup script.
-				// Share status object and sharec content array.
-				extensionPort.postMessage({ copycat: { type: 'message', from: 'event.js', to: 'popup.js', event: 'extension_connection_popup' }, content: content });
-				// End case.
+		
+		switch (message.event) {
+		
+			case 'popup_page_opened':
+				
+				extensionPort.postMessage({ copies: CopyCat.copies });
+				
 				break;
-			// Extension accepted data.
-			// User data has been processed by CopyCat.
-			case 'extension_accepted_data':
-				// Set extension badge to emtpy.
-				chrome.browserAction.setBadgeText({ text: '' });
-				// Empty content array.
-				content.empty();
-				// End case.				
+			
+			case 'popup_page_reading_copies':
+				
+				CopyCat.browser.browserAction.setBadgeText({ text: (CopyCat.copies.empty() ? "" : "") });
+	
 				break;
 		};
 	});
 });
+
