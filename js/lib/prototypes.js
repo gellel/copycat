@@ -1,3 +1,13 @@
+/**
+*
+* @file: CopyCat methods extension.
+* @version: 1.0.0.0
+* @author: gellel
+* @github: https://github.com/gellel/copycat
+* @copyright: MIT
+*
+**/
+
 Array.prototype.append = function () {
     /**
     *** Array.append(@args);
