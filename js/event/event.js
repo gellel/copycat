@@ -54,6 +54,6 @@ chrome.runtime.onConnect.addListener(function (extensionPort) {
 				content.empty();
 				// End case.				
 				break;
-		}
+		};
 	});
 });

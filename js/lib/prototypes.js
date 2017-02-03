@@ -1,113 +1,105 @@
+/*
+ *  Extension script for browser extension.
+ *  Manages required shorthand built-in functions.
+ *  File appended to event page, popup page.
+*/
 
 
 Array.prototype.append = function () {
-    /*
-     * Extension method for Array Object. 
-     * Pushes arguments sequence to Array instance.. 
-     * Returns Array.
-    */
+    // Iterate arguments sequence.
+    // Push argument at index to instance.
     for (let i = 0; i < arguments.length; i++) this.push(arguments[i]);
 
+    // @return: @type: <array>
     return this;
 };
 
 
 Array.prototype.empty = function () {
-    /*
-     * Extension method for Array Object.
-     * Empties contents from Array instance.
-     * Returns Array.
-    */
-    return [];
+    // Subset arguments from instance.
+    // Sets instance to empty.
+    this.splice(0, this.length);
+    
+    // @return: @type: <array>
+    return this;
 };
 
 
 Array.prototype.set = function () {
-    /*
-     * Extension method for Array Object.
-     * Sets Array instance to contain unique values.
-     * Returns Array.
-    */
+    // @return: @type: <array>
     return Array.from(new Set(this));
 };
 
 
 Element.prototype.insertNode = function () {
-    /*
-     * Extension method for HTMLElement Object.
-     * Constructs HTMLElement childNode for parent HTMLElement.
-     * Returns HTMLElement childNode or callback argument.
-    */
+    // Set arguments to array.
     let a = Array.prototype.slice.call(arguments);
 
-    let e = this.appendChild(document.createElement(a.shift()));
+    // Shift first item from arguments.
+    // Set argument to string. 
+    // Construct HTMLNode from string.
+    let e = this.appendChild(document.createElement(a.shift().toString()));
 
+    // Iterate over arguments sequence. 
+    // Set strings to TextNodes.
+    // Set objects to attributes.
     for (let i = 0; i < a.length; i++) a[i] instanceof Object ? e.setAttributes(a[i]) : typeof a[i] === "string" && e.insertTextNode(a[i]);
-
+    
+    // @return: @type: <HTMLNode>
     return a.slice(-1)[0] instanceof Function ? a.slice(-1)[0](e, a) : e;
 };
 
 Element.prototype.insertTextNode = function () {
-    /*
-     * Extension method for HTMLElement Object.
-     * Constructs textNode for HTMLElement.
-     * Returns HTMLElement.
-    */
-    for (let i = 0; i < arguments.length; i++) this.appendChild(document.createTextNode(arguments[i].toString()));
+    // Set arguments to array.
+    let a = Array.prototype.slice.call(arguments);
 
+    // Iterate over arguments sequence.
+    // Set argument to string.
+    // Construct TextNode from strings.
+    for (let i = 0; i < arguments.length; i++) this.appendChild(document.createTextNode(arguments[i].toString()));
+    
+    // @return: @type: <HTMLNode>
     return this;
 };
 
 
 Element.prototype.setAttributes = function (attributes) {
-    /*
-     * Extension method for HTMLElement Object.
-     * Assigns multiple attributes for HTMLElement.
-     * Returns HTMLElement.
-    */
+    // Set argument to object structure.
+    // Iterate over keys in object.
+    // Set attribute from key. 
+    // Use value from object key pair.
     for (let key in (attributes = attributes instanceof Object ? attributes : {})) this.setAttribute(key, attributes[key]);
-
+    
+    // @return: @type: @HTMLNode
     return this;
 };
 
 
 Element.prototype.remove = function () {
-    /*
-     * Extension method for HTMLElement Object.
-     * Removes HTMLElement from Document Object Module.
-    */
+    // Navigate to parentElement for HTMLNode.
+    // Remove reference HTMLNode from Document Object Module.
     this.parentElement.removeChild(this);
 };
 
 
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
-    /*
-     * Extension method for HTMLElement Object.
-     * Removes HTMLElement from Document Object Module.
-    */
-    for (let i = 0; i < this.length; i++) if (this[i] && this[i].parentElement) this[i].parentElement.removeChild(this[i]);
+    // Iterate over childNodes for HTMLNode.
+    // Test childNode at index and parentNode are defined.
+    // Remove reference HTMLNode from Document Object Module.
+    for (let i = 0, len = this.length; i < len; i++) if (this[i] && this[i].parentElement) this[i].parentElement.removeChild(this[i]);
 };
 
 
 Object.prototype.stringify = function () {
-    /*
-     * Extension method for Object primative. 
-     * Sets contents to JSON string. 
-     * Returns stringified Object instance.
-    */
+    // @return: @type: <string>
     return JSON.stringify(this);
 };
 
 
 String.prototype.objectify = function () {
-    /*
-     * Extension method for String Object. 
-     * Sets string contents to Object. 
-     * Returns Object.
-    */
-    try {
-        return JSON.parse(this);
-    } catch (e) {
-        return {};
-    }
+    // Attempt to format string as object.
+    { try { this = JSON.parse(this) } catch (e) { this = {} }
+
+    // @return: @type: <object>
+    return this;
 };
