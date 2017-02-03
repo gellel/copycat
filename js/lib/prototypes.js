@@ -4,7 +4,7 @@
 * @version: 1.0.0.0
 * @author: gellel
 * @github: https://github.com/gellel/copycat
-* @copyright: MIT
+* @copyright: MIT.
 *
 **/
 
