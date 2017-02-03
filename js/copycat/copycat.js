@@ -1,6 +1,6 @@
 /**
 *
-* @file: Mozilla and Chrome extension handler.
+* @file: Mozilla and Chrome extension.
 * @version: 1.0.0.0
 * @author: gellel
 * @github: https://github.com/gellel/copycat
@@ -13,35 +13,36 @@ class CopyCat {
 	/**
 	** CopyCat extension class API.
 	*
-	* Handles cross-platform operations.
+	* Manages Chrome and FireFox extension events.
 	*
 	**/
 
-	get browser () {
+	static get browser () {
 		/**
 	    *** CopyCat.browser;
 	    *
-	    * Fetches extension API. 
-	    * Uses browser object for FireFox.
+	    * Sets browser method object.
 	    * Static property.
 	    * Returns @object.
 	    *
 	    **/
 
-		return browser ? browser : chrome;
+		return window.browser ? browser : chrome;
 	}
 
-	get meta () {
+	static get manifest () {
 		/**
 	    *** CopyCat.meta;
 	    *
-	    * Attributes for extension. 
+	    * Fetches extension manifest metadata. 
 	    * Static property.
 	    * Returns @object.
 	    *
 	    **/
-		return { manifest: CopyCat.browser.runtime.getManifest(), status: { message: {}, event: {} } };
+
+		return CopyCat.browser.runtime.getManifest();
 	}
+
 
 };
 

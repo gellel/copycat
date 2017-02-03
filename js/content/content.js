@@ -1,14 +1,31 @@
-/*
- *	Content script for browser extension.
- *	Manages communication between content.js and event.js.
- *	File appended to opened tabs.
-*/
+/**
+*
+* @file: Mozilla and Chrome extension.
+* @version: 1.0.0.0
+* @author: gellel
+* @github: https://github.com/gellel/copycat
+* @copyright: MIT.
+*
+**/
 
 
-// Active tab message handler.
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	// Manage message response to event script.
-	// Share status object and page content selection.
-	// Stringify content to prevent CORS issue.
-	sendResponse({ copycat: { type: 'message', from: 'content.js', to: 'event.js', event: 'extension_fetched_content' }, content: JSON.stringify({ page: window.location, selection: window.getSelection().toString() }) });
+CopyCat.browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+	/**
+	*** Manage event page message.
+	*
+	* Message object set from event page.
+	* Sender object contains extension id.
+	* Response function dispatches message to event page.
+	*
+	*** Send message to event page.
+	*
+	* Message response must be object.
+	* Message object contains single object key.
+	* Sends page data from active tab and highlighted text.
+	*
+	*** Function called from using extension key pattern.
+	*
+	**/
+
+	sendResponse({ page: { tab: window.location, text: window.getSelection().toString() }});
 });

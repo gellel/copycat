@@ -24,7 +24,7 @@ chrome.commands.onCommand.addListener(function (command) {
 				// Append message content to shared resource array.
 				// Empty duplicate data from array.
 				// Set extension badge to content length.
-				chrome.browserAction.setBadgeText({ text: content.append(message.content).set().length.toString() });
+				chrome.browserAction.setBadgeText({ text: content.append(message.page).set().length.toString() });
 			});
 		});
 	});
