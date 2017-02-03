@@ -74,9 +74,30 @@ Object.prototype.stringify = function () {
 };
 
 
-Object.prototype.editKeys = function () {
+Object.prototype.addKey = function () {
     /**
-    *** Object.editKeys(@args)
+    *** Object.addKey(@args)
+    *
+    * Modifies instance.
+    * Add keys for object.
+    * Accepts argument sequence.
+    * Returns @object.
+    *
+    **/
+
+    // Process arguments sequence. 
+    // Process keys for argument at index. 
+    // Add property for key.
+    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return i instanceof Object ? i : !1; }); i < a.length; i++) 
+        for (key in a[i]) if (this.hasOwnProperty(key)) this[key] = a[i][key]; 
+
+    return this;
+};
+
+
+Object.prototype.editKey = function () {
+    /**
+    *** Object.editKey(@args)
     *
     * Modifies instance.
     * Edits keys for object.
@@ -90,6 +111,27 @@ Object.prototype.editKeys = function () {
     // Edit property for defined and unique key.
     for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return i instanceof Object ? i : !1; }); i < a.length; i++) 
         for (key in a[i]) if (key in this && this.hasOwnProperty(key)) this[key] = a[i][key]; 
+
+    return this;
+};
+
+
+Object.prototype.deleteKey = function() {
+    /**
+    *** Object.deleteKey(@args)
+    *
+    * Modifies instance.
+    * Deletes keys for object.
+    * Accepts argument sequence.
+    * Returns @object.
+    *
+    **/
+
+    // Process arguments sequence. 
+    // Process keys for argument at index. 
+    // Delete defined and unique key.
+    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return typeof i === 'string' ? i : !1; }); i < a.length; i++) 
+        if (a[i] in this && this.hasOwnProperty(a[i])) delete this[a[i]]; 
 
     return this;
 };
