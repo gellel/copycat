@@ -97,9 +97,7 @@ Object.prototype.stringify = function () {
 
 
 String.prototype.objectify = function () {
-    // Attempt to format string as object.
-    { try { this = JSON.parse(this) } catch (e) { this = {} }
-
     // @return: @type: <object>
-    return this;
+    try { return JSON.parse(this); } catch(e) { return {}; }
 };
+
