@@ -36,15 +36,18 @@ CopyCat.browser.commands.onCommand.addListener(function (command) {
 	*
 	**/
 
-	// Fetch browser active tab. Uses active tab from current or last browser window.
+	// Find current active tab. Searches across opened windows.
 	CopyCat.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
-		// Send message to active tab. Await response.
+		// Send message to active tab. Await content page response.
 		CopyCat.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
-			// Content script replies. Manage message object.
-			CopyCat.browser.browserAction.setBadgeText({ 
-				// Append message contents to array.
-				// Edit extension icon badge text.
-				text: CopyCat.copies.append(message.page).set().length.toString() });
+			// Manage message object.
+			if (message.text) {
+				// Modify extension badge.
+				CopyCat.browser.browserAction.setBadgeText({ 
+					// Append message object to copies array.
+					// Edit extension badge to display copies total.
+					text: CopyCat.copies.append(message).set().length.toString() });
+			}
 		});
 	});
 });
@@ -84,8 +87,8 @@ CopyCat.browser.runtime.onConnect.addListener(function (extensionPort) {
 				CopyCat.browser.browserAction.setBadgeText({ 
 					// Empty message contents to array.
 					// Edit extension icon badge text to empty.
-					text: (CopyCat.copies.empty() ? "" : "") });
-	
+					text: CopyCat.copies.empty().toString() });
+				
 				break;
 		};
 	});

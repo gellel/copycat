@@ -27,5 +27,7 @@ CopyCat.browser.runtime.onMessage.addListener(function (message, sender, sendRes
 	*
 	**/
 
-	sendResponse({ page: { tab: window.location, text: window.getSelection().toString() }});
+	// Send message object to event page.
+	sendResponse({ date: new Date(), tab: window.location, text: window.getSelection().toString() });
 });
+

@@ -43,5 +43,19 @@ class CopyCat {
 		return CopyCat.browser.runtime.getManifest();
 	}
 
+	static get name () {
+		/**
+		*** CopyCat.name
+		*
+		* Fetches base name metadata.
+		* Static property.
+		* Returns @string.
+		*
+		**/
+
+		return 'CopyCat';
+		
+	}
+
 };
 

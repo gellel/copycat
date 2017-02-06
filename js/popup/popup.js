@@ -4,34 +4,57 @@
  *	File appended to popup page.
 */
 
-// Set extension name referral constant.
-const name = 'copycat';
 
-// Register extension connection port.
-// Set connection name to extension name.
-let extensionPort = chrome.runtime.connect({ name: name });
+/**
+*** Extension manager.
+*
+* Establishes port between popup and event page.
+*
+**/
+let extensionPort = chrome.runtime.connect({ name: CopyCat.name });
 
-// Establishes initial connection.
-// Send message to event script confirming connection.
+
+/**
+*** Ping event page.
+*
+***/
 extensionPort.postMessage({ event: 'popup_page_opened' });
-
-// Register message listener from event script. 
-extensionPort.onMessage.addListener(function (message, sender) {
-	// Post message to event script. Manages status and application cleanup.
-	extensionPort.postMessage({ event: 'popup_page_reading_copies' });
 	
-	document.body.style.cssText = 'width:200px;height:200px;';
 
-	console.log(message)
 
+extensionPort.onMessage.addListener(function (message, sender) {
+
+	/**
+	*** Manage event page connection.
+	*
+	* User opened browser extension popup page.
+	* Sends copied array from event page to pop up page 
+	* Response cleared after popup page is closed.
+	*
+	** Send message to event script.
+	*
+	* Message response must be object.
+	* Message object contains popup page object argument.
+	* Assumes content script is to find page data from active tab and highlighted text.
+	*
+	**/
+
+	extensionPort.postMessage({ event: 'popup_page_reading_copies' });
+
+
+	/**
+	*** Begin spaghetti code.
+	*
+	* Testing UI 
+	* 
+	**/
+
+	console.log(message.copies)
+
+	document.body.insertNode('main', {}, function (main) {
+
+		
+	});
 
 });
 
-
-chrome.storage.sync.get(name, function (chromeStorage) {
-
-	//console.log(chromeStorage)
-
-	chrome.storage.sync.set({ name: { name: { key: 'lol' } }})
-
-});

@@ -44,6 +44,21 @@ Array.prototype.empty = function () {
 };
 
 
+Array.prototype.not = function (filter) {
+    /**
+    *** Array.not(@string);
+    *
+    * Modifies instance. 
+    * Empties undefined, null or missing content.
+    * Accepts void or filter by argument type.
+    * Returns @array.
+    *
+    **/
+
+    return this.filter(function(i) { return typeof i !== filter ? i : !1; });
+};
+
+
 Array.prototype.set = function () {
     /**
     *** Array.set(@void);
@@ -56,103 +71,6 @@ Array.prototype.set = function () {
     **/
     
     return Array.from(new Set(this));
-};
-
-
-Object.prototype.stringify = function () {
-    /**
-    *** Object.stringify(@void)
-    *
-    * Modifies instance.
-    * Updates object to string type.
-    * Accepts void.
-    * Returns @string.
-    *
-    **/
-
-    return JSON.stringify(this);
-};
-
-
-Object.prototype.addKey = function () {
-    /**
-    *** Object.addKey(@args)
-    *
-    * Modifies instance.
-    * Add keys for object.
-    * Accepts argument sequence.
-    * Returns @object.
-    *
-    **/
-
-    // Process arguments sequence. 
-    // Process keys for argument at index. 
-    // Add property for key.
-    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return i instanceof Object ? i : !1; }); i < a.length; i++) 
-        for (key in a[i]) if (this.hasOwnProperty(key)) this[key] = a[i][key]; 
-
-    return this;
-};
-
-
-Object.prototype.editKey = function () {
-    /**
-    *** Object.editKey(@args)
-    *
-    * Modifies instance.
-    * Edits keys for object.
-    * Accepts argument sequence.
-    * Returns @object.
-    *
-    **/
-
-    // Process arguments sequence. 
-    // Process keys for argument at index. 
-    // Edit property for defined and unique key.
-    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return i instanceof Object ? i : !1; }); i < a.length; i++) 
-        for (key in a[i]) if (key in this && this.hasOwnProperty(key)) this[key] = a[i][key]; 
-
-    return this;
-};
-
-
-Object.prototype.deleteKey = function() {
-    /**
-    *** Object.deleteKey(@args)
-    *
-    * Modifies instance.
-    * Deletes keys for object.
-    * Accepts argument sequence.
-    * Returns @object.
-    *
-    **/
-
-    // Process arguments sequence. 
-    // Process keys for argument at index. 
-    // Delete defined and unique key.
-    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return typeof i === 'string' ? i : !1; }); i < a.length; i++) 
-        if (a[i] in this && this.hasOwnProperty(a[i])) delete this[a[i]]; 
-
-    return this;
-};
-
-
-String.prototype.object = function () {
-    /**
-    *** String.object(@void)
-    *
-    * Modifies instance.
-    * Updates string to object type.
-    * Accepts void.
-    * Returns @object.
-    *
-    **/
-
-    // Set regular expression pattern. 
-    // Matches simple object structures.
-    let regexp = /^\{((\s?)*(\"[^"]+\"(\s?)*:(\s?)*(\d|\"[^"]*\"|\{.*\}|\[.*\])+,?)+(\s?))*\}$/gi;
-
-    return regexp.test(this) ? JSON.parse(this) : {};
 };
 
 
