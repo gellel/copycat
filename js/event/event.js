@@ -9,16 +9,10 @@
 **/
 
 
-/**
-*** Extension page copies.
-*
-* Stores contents fetched from content page.
-*
-**/
-CopyCat.copies = new Array();
+Extension.copies = new Array();
 
 
-CopyCat.browser.commands.onCommand.addListener(function (command) {
+Extension.browser.commands.onCommand.addListener(function (command) {
 	/**
 	*** Manage extension key patterns.
 	*
@@ -41,23 +35,23 @@ CopyCat.browser.commands.onCommand.addListener(function (command) {
 	**/
 
 	// Find current active tab. Searches across opened windows.
-	CopyCat.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
+	Extension.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
 		// Send message to active tab. Await content page response.
-		CopyCat.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
+		Extension.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
 			// Manage message object.
 			if (message.text) {
 				// Modify extension badge.
-				CopyCat.browser.browserAction.setBadgeText({ 
+				Extension.browser.browserAction.setBadgeText({ 
 					// Append message object to copies array.
 					// Edit extension badge to display copies total.
-					text: CopyCat.copies.append(message).set().length.toString() });
+					text: Extension.copies.append(message).set().length.toString() });
 			}
 		});
 	});
 });
 
 
-CopyCat.browser.runtime.onConnect.addListener(function (extensionPort) {
+Extension.browser.runtime.onConnect.addListener(function (extensionPort) {
 	/**
 	*** Manage extension popup opened.
 	*
@@ -82,16 +76,16 @@ CopyCat.browser.runtime.onConnect.addListener(function (extensionPort) {
 				
 				// Send message to popup page.
 				extensionPort.postMessage({ 
-					copies: CopyCat.copies });
+					copies: Extension.copies });
 				
 				break;
 			
 			case 'popup_page_reading_copies':
 				
-				CopyCat.browser.browserAction.setBadgeText({ 
+				Extension.browser.browserAction.setBadgeText({ 
 					// Empty message contents to array.
 					// Edit extension icon badge text to empty.
-					text: CopyCat.copies.empty().toString() });
+					text: Extension.copies.empty().toString() });
 				
 				break;
 		};

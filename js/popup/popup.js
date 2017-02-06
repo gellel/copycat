@@ -15,7 +15,7 @@
 * Establishes port between popup and event page.
 *
 **/
-let extensionPort = chrome.runtime.connect({ name: CopyCat.name });
+let extensionPort = chrome.runtime.connect({ name: Extension.manifest.name });
 
 
 /**

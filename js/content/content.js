@@ -9,7 +9,7 @@
 **/
 
 
-CopyCat.browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+Extension.browser.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	/**
 	*** Manage event page message.
 	*

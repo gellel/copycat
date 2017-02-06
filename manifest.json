@@ -1,6 +1,6 @@
 {
 	"manifest_version": 2,
-	"name": "copycat",
+	"name": "CopyCat",
 	"version": "1.0.0.0",
 	"author": "gellel",
 	"homepage_url": "https://github.com/gellel/copycat",
@@ -9,7 +9,7 @@
 	"description": "Copycat stores your copies! Meow!",
 
 	"background": {
-		"scripts": ["js/lib/prototypes.js", "js/copycat/copycat.js", "js/event/event.js"],
+		"scripts": ["js/lib/prototypes.js", "js/extension/extension.js", "js/event/event.js"],
 		"persistent": false
 	},
 
@@ -26,7 +26,7 @@
 	"content_scripts": [
 		{
 			"js": [
-				"js/copycat/copycat.js", "js/content/content.js"
+				"js/extension/extension.js", "js/content/content.js"
 			],
 			"matches": [
 				"http://*/*", 
