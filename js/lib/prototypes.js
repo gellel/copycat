@@ -37,8 +37,8 @@ Array.prototype.empty = function () {
     *
     **/
 
-    // Subset array instance.
-    this.slice(0, this.length);
+    // Reset array property length.
+    this.length = 0;
     
     return this;
 };

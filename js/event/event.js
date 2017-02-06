@@ -5,6 +5,12 @@
 */
 
 
+/**
+*** Extension page copies.
+*
+* Stores contents fetched from content page.
+*
+**/
 CopyCat.copies = new Array();
 
 
@@ -30,12 +36,15 @@ CopyCat.browser.commands.onCommand.addListener(function (command) {
 	*
 	**/
 
+	// Fetch browser active tab. Uses active tab from current or last browser window.
 	CopyCat.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
-
+		// Send message to active tab. Await response.
 		CopyCat.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
-
-			CopyCat.browser.browserAction.setBadgeText({ text: CopyCat.copies.append(message.page).set().length.toString() });
-
+			// Content script replies. Manage message object.
+			CopyCat.browser.browserAction.setBadgeText({ 
+				// Append message contents to array.
+				// Edit extension icon badge text.
+				text: CopyCat.copies.append(message.page).set().length.toString() });
 		});
 	});
 });
@@ -57,19 +66,25 @@ CopyCat.browser.runtime.onConnect.addListener(function (extensionPort) {
 	*
 	**/
 
+	// Connection from popup page. Manage message object.
 	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
 		
 		switch (message.event) {
 		
 			case 'popup_page_opened':
 				
-				extensionPort.postMessage({ copies: CopyCat.copies });
+				// Send message to popup page.
+				extensionPort.postMessage({ 
+					copies: CopyCat.copies });
 				
 				break;
 			
 			case 'popup_page_reading_copies':
 				
-				CopyCat.browser.browserAction.setBadgeText({ text: (CopyCat.copies.empty() ? "" : "") });
+				CopyCat.browser.browserAction.setBadgeText({ 
+					// Empty message contents to array.
+					// Edit extension icon badge text to empty.
+					text: (CopyCat.copies.empty() ? "" : "") });
 	
 				break;
 		};
