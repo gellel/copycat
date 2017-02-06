@@ -1,8 +1,12 @@
-/*
- *	Popup script for browser extension.
- *	Manages communication between event.js and popup.js.
- *	File appended to popup page.
-*/
+/**
+*
+* @file: Mozilla and Chrome extension.
+* @version: 1.0.0.0
+* @author: gellel
+* @github: https://github.com/gellel/copycat
+* @copyright: MIT.
+*
+**/
 
 
 /**
