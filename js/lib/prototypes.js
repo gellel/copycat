@@ -30,7 +30,9 @@ Array.prototype.empty = function () {
     *** @return: @type: array.
     */
 
-    return new Array();
+    this.length = 0;
+
+    return this;
 };
 
 
@@ -82,7 +84,7 @@ Element.prototype.insertNode = function () {
 
     for (let i = 0, l = arguments.length; i < l; i++) 
         arguments[i] instanceof Object ? e.setAttributes(arguments[i]) : 
-        typeof arguments[i] === 'string' && e.insertTextNode(a[i]);
+        typeof arguments[i] === 'string' && e.insertTextNode(arguments[i]);
 
     return arguments.slice(-1)[0] instanceof Function ? arguments.slice(-1)[0](e, arguments) : e;
 };
