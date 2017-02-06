@@ -1,6 +1,6 @@
 /**
 *
-* @file: CopyCat methods extension.
+* @file: Mozilla and Chrome extension.
 * @version: 1.0.0.0
 * @author: gellel
 * @github: https://github.com/gellel/copycat
@@ -8,52 +8,38 @@
 *
 **/
 
+
 Array.prototype.append = function () {
     /**
-    *** Array.append(@args);
+    *** @param: arguments, @type: sequence.
     *
-    * Modifies array instance. 
-    * Pushes arguments to array.
-    * Accepts argument sequence.
-    * Returns @array.
-    *
-    **/
+    *** @return: @type: array.
+    */
 
-    // Process arguments sequence. Append contents to array.
-    for (let i = 0; i < arguments.length; i++) this.push(arguments[i])
-    
+    for (let i = 0, l = arguments.length; i < l; i++) 
+        this.push(arguments[i])
+
     return this;
 };
 
 
 Array.prototype.empty = function () {
     /**
-    *** Array.append(@void);
+    *** @param: arguments, @type: undefined.
     *
-    * Modifies instance. 
-    * Empties array contents.
-    * Accepts void.
-    * Returns @array.
-    *
-    **/
+    *** @return: @type: array.
+    */
 
-    // Reset array property length.
-    this.length = 0;
-    
-    return this;
+    return new Array();
 };
 
 
 Array.prototype.not = function (filter) {
     /**
-    *** Array.not(@string);
+    *** @param: filter, @type: string.
     *
-    * Modifies instance. 
-    * Empties undefined, null or missing content.
-    * Accepts void or filter by argument type.
-    * Returns @array.
-    *
-    **/
+    *** @return: @type: array.
+    */
 
     return this.filter(function(i) { return typeof i !== filter ? i : !1; });
 };
@@ -61,91 +47,79 @@ Array.prototype.not = function (filter) {
 
 Array.prototype.set = function () {
     /**
-    *** Array.set(@void);
+    *** @param: arguments, @type: undefined.
     *
-    * Modifies instance. 
-    * Empties duplicate properties.
-    * Accepts void.
-    * Returns @array.
-    *
-    **/
-    
+    *** @return: @type: array.
+    */
+
     return Array.from(new Set(this));
+};
+
+
+Array.prototype.index = function (position) {
+    /**
+    *** @param: position, @type: integer.
+    *
+    *** @return: @type: *.
+    */
+
+    position = typeof position === 'number' ? parseInt(position) : 0;
+
+    return this[ position < this.length ? 0 : position > this.length ? this.length - 1 : position ];
 };
 
 
 Element.prototype.insertNode = function () {
     /**
-    *** Element.insertNode(@args)
+    *** @param: arguments, @type: sequence.
     *
-    * Creates the HTML element specified by tagName.
-    * Accepts argument sequence.
-    * Returns @element.
-    * 
-    **/
+    *** @return: @type: element.
+    */
 
-    let a = Array.prototype.slice.call(arguments);
+    arguments = Array.prototype.slice.call(argument);
 
-    // Create and append HTML element. Use first argument as element type.
-    let e = this.appendChild(document.createElement(a.shift().toString()));
-    
-    // Process arguments sequence. 
-    // Set strings to textNodes. Set objects to HTML attributes.
-    for (let i = 0; i < a.length; i++) 
-        a[i] instanceof Object ? 
-            e.setAttributes(a[i]) : typeof a[i] === "string" && e.insertTextNode(a[i]);
-    
-    return a.slice(-1)[0] instanceof Function ? a.slice(-1)[0](e, a) : e;
+    let e = this.appendChild(document.createElement(arguments.shift().toString()))
+
+    for (let i = 0, l = arguments.length; i < l; i++) 
+        arguments[i] instanceof Object ? e.setAttributes(arguments[i]) : 
+        typeof arguments[i] === 'string' && e.insertTextNode(a[i]);
+
+    return arguments.slice(-1)[0] instanceof Function ? arguments.slice(-1)[0](e, arguments) : e;
 };
 
 
 Element.prototype.insertTextNode = function () {
     /**
-    *** Element.insertTextNode(@args)
+    *** @param: arguments, @type: sequence.
     *
-    * Creates the HTML text nodes for element.
-    * Accepts argument sequence.
-    * Returns @element.
-    * 
-    **/
+    *** @return: @type: element.
+    */
 
-    // Process arguments sequence. 
-    // Filter array to contain strings or numbers. Set text node from argument at index.
-    for (let i = 0, a = Array.prototype.slice.call(arguments).filter(function (i) { return typeof i === "string" || typeof i === "number" ? i : !1; }); i < a.length; i++) 
-        this.appendChild(document.createTextNode(a[i]));
-    
+    for (let i = 0, l = arguments.length; i < l; i++)
+        this.appendChild(document.createTextNode(arguments[i].toString()));
+
     return this;
 };
 
 
 Element.prototype.setAttributes = function (attributes) {
     /**
-    *** Element.setAttributes(@object)
+    *** @param: attributes, @type: object.
     *
-    * Sets attributes for element.
-    * Accepts object type.
-    * Returns @element.
-    * 
-    **/
+    *** @return: @type: element.
+    */
 
-    // Process keys in object argument.
-    // Set HTML attribute for current key at index.
     for (let key in (attributes = attributes instanceof Object ? attributes : {})) 
         this.setAttribute(key, attributes[key]);
-    
+
     return this;
 };
 
 
 Element.prototype.remove = function () {
     /**
-    *** Element.remove(@void)
-    *
-    * Removes element from document tree.
-    * Accepts void.
-    * Returns: @void.
-    *
-    **/
+    *** @return: @type: undefined.
+    */
 
     this.parentElement.removeChild(this);
 };
@@ -153,19 +127,11 @@ Element.prototype.remove = function () {
 
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
     /**
-    *** Element.remove(@void)
-    *
-    * Removes childNodes from document tree.
-    * Accepts void.
-    * Returns: @void.
-    *
-    **/
+    *** @return: @type: undefined.
+    */
 
-    // Process child nodes for element.
-    // Remove element from document tree.
-    for (let i = 0, len = this.length; i < len; i++) 
+    for (let i = 0, l = this.length; i < l; i++) 
         if (this[i] && this[i].parentElement) 
             this[i].parentElement.removeChild(this[i]);
 };
-
 

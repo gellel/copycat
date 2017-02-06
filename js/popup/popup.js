@@ -57,6 +57,20 @@ extensionPort.onMessage.addListener(function (message, sender) {
 
 	document.body.insertNode('main', {}, function (main) {
 
+		for (let i = 0; i < message.copies.length; i++) {
+
+			if (message.copies[i] instanceof Object) {
+
+
+				main.insertNode('article', { style: 'margin: 5px; padding: 5px; border: 1px solid #e1e1e1;'}, function (article) {
+
+
+					article.insertNode('p', message.copies[i].text)
+
+				});
+
+			}	
+		}
 		
 	});
 
