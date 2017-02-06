@@ -76,7 +76,7 @@ Element.prototype.insertNode = function () {
     *** @return: @type: element.
     */
 
-    arguments = Array.prototype.slice.call(argument);
+    arguments = Array.prototype.slice.call(arguments);
 
     let e = this.appendChild(document.createElement(arguments.shift().toString()))
 
