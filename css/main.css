@@ -1,8 +1,5 @@
-/**
-*** Extension CSS.
-*
-* Popup-page.
-*  
-*/
-
 @import url("reset/reset.css");
+@import url("grid/grid.css");
+@import url("flex/flex.css");
+@import url("display/display.css");
+@import url("font/font-open-sans.css");

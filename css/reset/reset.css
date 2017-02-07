@@ -98,6 +98,7 @@ video {
     font: inherit;
     margin: 0;
     padding: 0;
+    outline: none;
     vertical-align: baseline;
 }
 article,
