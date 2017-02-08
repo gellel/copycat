@@ -50,8 +50,6 @@ Extension.port.onMessage.addListener(function (message, sender) {
 
 				div.insertNode('div', { class: 'tp-xs-6 rp-xs-12 bp-xs-6 lp-xs-12' }, function (div) {
 					
-					
-
 					/**
 					*** Main text selection.
 					*
@@ -105,10 +103,18 @@ Extension.port.onMessage.addListener(function (message, sender) {
 								div.insertNode('div', function (div) {
 									div.insertNode('hgroup', { class: 'flex-xs align-xs-center' }, function (hgroup) {
 
+										/**
+										*** Webpage.
+										*
+										**/
 										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
 											h6.insertNode('span', { }, message.copies[i].tab.host);
 										});
 
+										/**
+										*** Page path.
+										*
+										**/
 										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
 											h6.insertNode('span', { class: 'font-weight-800' }, message.copies[i].tab.pathname);
 										});
