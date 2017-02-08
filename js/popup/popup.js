@@ -108,7 +108,11 @@ Extension.port.onMessage.addListener(function (message, sender) {
 										*
 										**/
 										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
-											h6.insertNode('span', { }, message.copies[i].tab.host);
+											h6.insertNode('span', { }, function (span) {
+												span.insertNode('a', message.copies[i].tab.host, { style: 'cursor: pointer; color: #0e6fff;'}).addEventListener('click', function () {
+													Extension.browser.tabs.create({ url: 'http://' + message.copies[i].tab.host})
+												}, false);
+											});
 										});
 
 										/**
@@ -116,7 +120,12 @@ Extension.port.onMessage.addListener(function (message, sender) {
 										*
 										**/
 										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
-											h6.insertNode('span', { class: 'font-weight-800' }, message.copies[i].tab.pathname);
+
+											h6.insertNode('span', { class: 'font-weight-800' }, function (span) {
+												span.insertNode('a', message.copies[i].tab.pathname, { style: 'cursor: pointer; color: #0e6fff;'}).addEventListener('click', function () {
+													Extension.browser.tabs.create({ url: message.copies[i].tab.href})
+												}, false);
+											});
 										});
 
 									});
