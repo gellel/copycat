@@ -33,9 +33,13 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 		tab: window.location, 
 		text: window.getSelection().toString(), 
 		meta: (function () {
-			let names = ['keywords', 'description', 'subject', 'copyright', 'language', 'abstract', 'topic', 
-			'summary', 'author', 'owner', 'url', 'pagename', 
-			'twitter:site', 'twitter:card', 'twitter:title', 'twitter:description'];
+			let names = [
+				'keywords', 'description', 'subject', 'copyright', 
+				'language', 'abstract', 'topic', 
+				'summary', 'author', 'owner', 'url', 'pagename', 
+				'twitter:card', 'twitter:site', 'twitter:title', 
+				'twitter:description', 'twitter:creator', 'twitter:image:src'
+			];
 
 			let tags = {};
 

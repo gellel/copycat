@@ -40,27 +40,51 @@ Extension.port.onMessage.addListener(function (message, sender) {
 		
 	document.body.insertNode('div', { class: 'tp-xs-6 rp-xs-6 bp-xs-6 lp-xs-6'}, function (div) {
 
+		/**
+		*** Process copies.
+		*
+		**/
 		for (let i = 0, l = message.copies.length; i < l; i++) {
 
 			div.insertNode('div', { class: 'col-xs-grow col-sm-10 rm-xs-auto bm-xs-4 lm-xs-auto', style: 'background: white; box-shadow: 0rem 4.5rem 4.0rem -4.5rem rgba(0, 0, 0, 0.25);' }, function (div) {
 
 				div.insertNode('div', { class: 'tp-xs-6 rp-xs-12 bp-xs-6 lp-xs-12' }, function (div) {
-		
+					
+					
+
+					/**
+					*** Main text selection.
+					*
+					**/
 					div.insertNode('div', { class: 'tp-xs-6 bp-xs-6' }, function (div) {
 						div.insertNode('p', { class: 'font-xs-6 font-align-justify line-xs-12' }, function (p) {
 							p.insertNode('span', message.copies[i].text, { style: 'color: #232323; letter-spacing: 0.035rem; word-spacing: 0.1rem;' });
 						});
 					});
 
+					/**
+					*** Main page description.
+					*
+					**/
 					div.insertNode('div', { class: 'tp-xs-6 bp-xs-6' }, function (div) {
 						div.insertNode('p', { class: 'font-xs-4 font-align-left font-style-italic line-xs-8' }, function (p) {
 							p.insertNode('span', (message.copies[i].meta.description ? message.copies[i].meta.description : 'This site does not have a description. Feel free to add your own.'), { style: 'color: #232323; letter-spacing: 0.035rem; word-spacing: 0.1rem;' });
 						});
 					});
 
+					/**
+					*** Page meta.
+					*
+					**/
 					div.insertNode('div', {}, function (div) {
+
+
 						div.insertNode('aside', { class: 'flex-xs justify-xs-between'}, function (aside) {
 
+							/**
+							*** UI icons.
+							*
+							**/
 							aside.insertNode('div', {class: 'flex-xs align-xs-center'}, function (div) {
 								
 								div.insertSvgNode('svg', {x: '0px', y:'0px', viewBox:'0 0 50 50', 'xml:space':'preserve', class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2', style:'width: 1.4rem; height: 1.4rem;'}, function (svg) {
@@ -72,15 +96,26 @@ Extension.port.onMessage.addListener(function (message, sender) {
 								});
 							});
 
+							/**
+							*** Page path.
+							*
+							**/
 							aside.insertNode('div', {class: 'flex-xs- align-xs-center'}, function (div) {
 
-								for (let j = 0, keywords = (typeof message.copies[i].meta.keywords === 'string' ? message.copies[i].meta.keywords.split(',') : []); j < keywords.length; j++) {
+								div.insertNode('div', function (div) {
+									div.insertNode('hgroup', { class: 'flex-xs align-xs-center' }, function (hgroup) {
 
-									console.log(keywords[j])
-								}
+										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
+											h6.insertNode('span', { }, message.copies[i].tab.host);
+										});
 
+										hgroup.insertNode('h6', { class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2' }, function (h6) {
+											h6.insertNode('span', { class: 'font-weight-800' }, message.copies[i].tab.pathname);
+										});
+
+									});
+								});
 							});
-
 						});
 					});
 				});
