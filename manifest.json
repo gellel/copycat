@@ -9,15 +9,19 @@
 	"description": "Copycat stores your copies! Meow!",
 
 	"background": {
-		"scripts": ["js/lib/prototypes.js", "js/extension/extension.js", "js/event/event.js"],
+		"scripts": [
+			"js/lib/prototypes.js", 
+			"js/extension/extension.js", 
+			"js/event/event.js"
+		],
 		"persistent": false
 	},
 
 	"browser_action": {
 		"default_icon": {               
-			"16": "img/png/icon/256/256.png",      
-			"24": "img/png/icon/256/256.png",      
-			"32": "img/png/icon/256/256.png"       
+			"16": "img/png/icon/logo/256/256.png",      
+			"24": "img/png/icon/logo/256/256.png",      
+			"32": "img/png/icon/logo/256/256.png"       
 		},
 		"default_title": "copycat",
 		"default_popup": "index.html"   
@@ -26,7 +30,8 @@
 	"content_scripts": [
 		{
 			"js": [
-				"js/extension/extension.js", "js/content/content.js"
+				"js/extension/extension.js", 
+				"js/content/content.js"
 			],
 			"matches": [
 				"http://*/*", 
@@ -47,9 +52,9 @@
 	},
 
 	"icons": { 
-		"16": "img/png/icon/256/256.png",
-		"48": "img/png/icon/256/256.png",
-		"128": "img/png/icon/256/256.png" 
+		"16": "img/png/icon/logo/256/256.png",
+		"48": "img/png/icon/logo/256/256.png",
+		"128": "img/png/icon/logo/256/256.png" 
 	},
 
 	"permissions": [
