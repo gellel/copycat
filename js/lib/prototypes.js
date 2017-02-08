@@ -104,6 +104,31 @@ Element.prototype.insertTextNode = function () {
 };
 
 
+Element.prototype.insertSvgNode = function () {
+    /**
+    *** @param: arguments, @type: sequence.
+    *
+    *** @return: @type: element.
+    */
+    
+    arguments = Array.prototype.slice.call(arguments);
+
+    let e = this.appendChild(document.createElementNS('http://www.w3.org/2000/svg', arguments.shift().toString()));
+
+    for (let i = 0, l = arguments.length; i < l; i++) 
+
+        if (arguments[i] instanceof Object) 
+
+            for (let key in arguments[i])
+
+                key === 'xlink:href' ? 
+                    e.setAttributeNS('http://www.w3.org/1999/xlink', 'href', arguments[i][key]):
+                    e.setAttribute(key, arguments[i][key])
+
+    return arguments.slice(-1)[0] instanceof Function ? arguments.slice(-1)[0](e, arguments) : e;
+};
+
+
 Element.prototype.setAttributes = function (attributes) {
     /**
     *** @param: attributes, @type: object.
