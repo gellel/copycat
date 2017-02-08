@@ -52,8 +52,15 @@ Extension.port.onMessage.addListener(function (message, sender) {
 						});
 					});
 
+					div.insertNode('div', { class: 'tp-xs-6 bp-xs-6' }, function (div) {
+						div.insertNode('p', { class: 'font-xs-4 font-align-left font-style-italic line-xs-8' }, function (p) {
+							p.insertNode('span', (message.copies[i].meta.description ? message.copies[i].meta.description : 'This site does not have a description. Feel free to add your own.'), { style: 'color: #232323; letter-spacing: 0.035rem; word-spacing: 0.1rem;' });
+						});
+					});
+
 					div.insertNode('div', {}, function (div) {
-						div.insertNode('aside', {}, function (aside) {
+						div.insertNode('aside', { class: 'flex-xs justify-xs-between'}, function (aside) {
+
 							aside.insertNode('div', {class: 'flex-xs align-xs-center'}, function (div) {
 								
 								div.insertSvgNode('svg', {x: '0px', y:'0px', viewBox:'0 0 50 50', 'xml:space':'preserve', class: 'tp-xs-2 rp-xs-2 bp-xs-2 lp-xs-2', style:'width: 1.4rem; height: 1.4rem;'}, function (svg) {
@@ -64,6 +71,16 @@ Extension.port.onMessage.addListener(function (message, sender) {
 										svg.insertSvgNode('path', { d: 'M39.3,32c-2.8,0-5.3,1.3-6.9,3.4L19,27.9c0.3-0.9,0.5-1.9,0.5-2.9c0-1-0.2-2-0.5-2.9l13.4-7.5 c1.6,2.1,4.1,3.4,6.9,3.4c4.8,0,8.7-3.9,8.7-8.7s-3.9-8.7-8.7-8.7s-8.7,3.9-8.7,8.7c0,1,0.2,2,0.5,2.9l-13.4,7.5 c-1.6-2.1-4.1-3.4-6.9-3.4C5.9,16.3,2,20.2,2,25s3.9,8.7,8.7,8.7c2.8,0,5.3-1.3,6.9-3.4l13.4,7.5c-0.3,0.9-0.5,1.9-0.5,2.9 c0,4.8,3.9,8.7,8.7,8.7s8.7-3.9,8.7-8.7S44.1,32,39.3,32z M39.3,3.3c3.3,0,6,2.7,6,6s-2.7,6-6,6c-3.3,0-6-2.7-6-6S36,3.3,39.3,3.3z M10.7,31c-3.3,0-6-2.7-6-6s2.7-6,6-6s6,2.7,6,6S14,31,10.7,31z M39.3,46.7c-3.3,0-6-2.7-6-6c0-3.3,2.7-6,6-6c3.3,0,6,2.7,6,6 C45.3,44,42.6,46.7,39.3,46.7z', style: 'fill: #232323;' });
 								});
 							});
+
+							aside.insertNode('div', {class: 'flex-xs- align-xs-center'}, function (div) {
+
+								for (let j = 0, keywords = (typeof message.copies[i].meta.keywords === 'string' ? message.copies[i].meta.keywords.split(',') : []); j < keywords.length; j++) {
+
+									console.log(keywords[j])
+								}
+
+							});
+
 						});
 					});
 				});
