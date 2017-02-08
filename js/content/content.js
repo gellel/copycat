@@ -28,6 +28,26 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 	**/
 
 	// Send message object to event page.
-	sendResponse({ date: new Date(), tab: window.location, text: window.getSelection().toString() });
+	sendResponse({ 
+		date: new Date(), 
+		tab: window.location, 
+		text: window.getSelection().toString(), 
+		meta: (function () {
+			let names = ['keywords', 'description', 'subject', 'copyright', 'language', 'abstract', 'topic', 
+			'summary', 'author', 'owner', 'url', 'pagename', 
+			'twitter:site', 'twitter:card', 'twitter:title', 'twitter:description'];
+
+			let tags = {};
+
+			for (var i = 0, n = document.head.getElementsByTagName('meta'), l = n.length; i < l; i++) {
+				if (n[i].name && n[i].content)
+
+					if (names.indexOf(n[i].name.toLowerCase()) > -1)
+						tags[n[i].name.toLowerCase()] = n[i].content;
+			}
+
+			return tags;
+		}()) 
+	});
 });
 

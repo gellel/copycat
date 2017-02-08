@@ -36,16 +36,18 @@ Extension.browser.commands.onCommand.addListener(function (command) {
 
 	// Find current active tab. Searches across opened windows.
 	Extension.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
-		// Send message to active tab. Await content page response.
-		Extension.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
-			// Manage message object.
-			if (message.text) 
-				// Modify extension badge.
-				Extension.browser.browserAction.setBadgeText({ 
-					// Append message object to copies array.
-					// Edit extension badge to display copies total.
-					text: Extension.copies.append(message).set().length.toString() });
-		});
+		// Manage tab response.
+		if (tabs[0] && tabs[0].id)
+			// Send message to active tab. Await content page response.
+			Extension.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
+				// Manage message object.
+				if (message.text) 
+					// Modify extension badge.
+					Extension.browser.browserAction.setBadgeText({ 
+						// Append message object to copies array.
+						// Edit extension badge to display copies total.
+						text: Extension.copies.append(message).set().length.toString() });
+			});
 	});
 });
 
