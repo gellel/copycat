@@ -145,6 +145,6 @@ Extension.port.onMessage.addListener(function (message, sender) {
 			});
 		}
 	});
-	});
+});
 
 
