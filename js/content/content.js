@@ -27,8 +27,8 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 	*
 	**/
 
-	// Send message object to event page.
 	sendResponse({ 
+		store: false,
 		date: new Date(), 
 		tab: window.location, 
 		text: window.getSelection().toString(), 
@@ -43,7 +43,7 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 
 			let tags = {};
 
-			for (var i = 0, n = document.head.getElementsByTagName('meta'), l = n.length; i < l; i++) {
+			for (let i = 0, n = document.head.getElementsByTagName('meta'), l = n.length; i < l; i++) {
 				if (n[i].name && n[i].content)
 
 					if (names.indexOf(n[i].name.toLowerCase()) > -1)
@@ -51,7 +51,7 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 			}
 
 			return tags;
-		}()) 
+		}())
 	});
 });
 
