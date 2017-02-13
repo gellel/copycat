@@ -29,28 +29,20 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 
 	sendResponse({ 
 		store: false,
-		date: new Date(), 
 		tab: window.location, 
 		text: window.getSelection().toString(), 
-		meta: (function () {
-			let names = [
-				'keywords', 'description', 'subject', 'copyright', 
-				'language', 'abstract', 'topic', 
-				'summary', 'author', 'owner', 'url', 'pagename', 
+		meta: (function() {
+			let a = [
+				'keywords', 'description', 'subject', 
+				'copyright', 'language', 'abstract', 
+				'topic', 'summary', 'author', 
+				'owner', 'url', 'pagename', 
 				'twitter:card', 'twitter:site', 'twitter:title', 
 				'twitter:description', 'twitter:creator', 'twitter:image:src'
 			];
-
-			let tags = {};
-
-			for (let i = 0, n = document.head.getElementsByTagName('meta'), l = n.length; i < l; i++) {
-				if (n[i].name && n[i].content)
-
-					if (names.indexOf(n[i].name.toLowerCase()) > -1)
-						tags[n[i].name.toLowerCase()] = n[i].content;
-			}
-
-			return tags;
+		    for (var t = {}, i = 0, d = document.head.getElementsByTagName('meta'), e = d.length; i < e; i++) 
+		    		d[i].name && d[i].content && a.indexOf(d[i].name.toLowerCase()) > -1 && (t[d[i].name.toLowerCase()] = d[i].content);
+		    return t;
 		}())
 	});
 });

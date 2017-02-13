@@ -9,86 +9,85 @@
 **/
 
 
-Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
+
+Extension.copies = new Array();
+
+
+Extension.browser.commands.onCommand.addListener(function (command) {
 	/**
-	*** Fetch storage cache.
+	*** Find selected tab.
 	*
-	* Get browser storage data.
-	* Uses extension manifest name for browser pairing.
-	* First instance initialisation has empty object returned.
+	* Fetches ID for current active tab.
+	* Active tabs are registered across different browser windows and instances.
+	* Throws error if extension internals are being inspected and pattern performed.
 	*
 	**/
 
-	// Set default array reference for browser storage.
-	storage.copies = storage.copies instanceof Array ? storage.copies :  new Array();
-
-	// Set array for content sent from content page.
-	let copies = new Array();
-
-	Extension.browser.commands.onCommand.addListener(function (command) {
+	Extension.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
 		/**
-		*** Find selected tab.
+		*** Send message to active tab script.
 		*
-		* Fetches ID for current active tab.
-		* Active tabs are registered across different browser windows and instances.
-		* Throws error if extension internals are being inspected and pattern performed.
+		* Message response must be object.
+		* Message object contains empty object argument.
+		* Assumes content script is to find page data from active tab and highlighted text.
 		*
 		**/
 
-		Extension.browser.tabs.query({ active: true, lastFocusedWindow: true }, function (tabs) {
-			/**
-			*** Send message to active tab script.
-			*
-			* Message response must be object.
-			* Message object contains empty object argument.
-			* Assumes content script is to find page data from active tab and highlighted text.
-			*
-			**/
+		// Test current tab found and contains id.
+		if (tabs[0] && tabs[0].id)
+			// Find active tab.
+			Extension.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
+				// Test message response and contains text.
+				if (message && message.text) 
+					// Edit extension badge icon.
+					Extension.browser.browserAction.setBadgeText({ 
+						text: Extension.copies.append(JSON.stringify(message)).set().length.toString() });
+			});
+	});
+});
 
-			if (tabs[0] && tabs[0].id)
-				Extension.browser.tabs.sendMessage(tabs[0].id, {}, function (message) {
-					if (message && message.text) 
-						
-						Extension.browser.browserAction.setBadgeText({ 
-							text: copies.append(JSON.stringify(message)).set().length.toString() });
+Extension.browser.runtime.onConnect.addListener(function (extensionPort) {
+	/**
+	*** Manage extension popup opened.
+	*
+	* Connection registered across all browser instances.
+	* Requires user to open main extension. 
+	* Closing popup terminates connection.
+	*
+	**/
 
-				});
-		});
+
+	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
+		/**
+		*** Manage popup page response.
+		*
+		* Message object set from opened extension page.
+		* Sender object contains extension id.
+		* Response function dispatches message to popup page page.
+		*
+		**/
+
+		// Send message to popup page.
+		extensionPort.postMessage({
+			copies: Extension.copies.set() });		
 	});
 
-	Extension.browser.runtime.onConnect.addListener(function (extensionPort) {
+
+	extensionPort.onDisconnect.addListener(function (sender) {
 		/**
-		*** Manage extension popup opened.
+		*** Manage popup page closed.
 		*
-		* Connection registered across all browser instances.
-		* Requires user to open main extension. 
-		* Closing popup terminates connection.
+		* Disconnects from extension port.
+		* Sender object contains extension id.
 		*
 		**/
-		extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
-			/**
-			*** Manage popup page response.
-			*
-			* Message object set from opened extension page.
-			* Sender object contains extension id.
-			* Response function dispatches message to popup page page.
-			*
-			**/
 
-			switch (message.event) {
-			
-				case 'popup_page_opened':
-					extensionPort.postMessage({
-						copies: storage.copies.concat(copies).set() });
-					
-					break;
-				
-				case 'popup_page_reading_copies':
-					Extension.browser.browserAction.setBadgeText({ 
-						text: copies.empty().toString() });
-					
-					break;
-			};
-		});
+		// Edit extension badge icon.
+		Extension.browser.browserAction.setBadgeText({ 
+			text: Extension.copies.empty().toString() });
+
+		// Fetch synced data.
+		Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
+			console.log(storage) });
 	});
 });
