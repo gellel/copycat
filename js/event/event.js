@@ -9,7 +9,6 @@
 **/
 
 
-
 Extension.copies = new Array();
 
 
@@ -56,7 +55,6 @@ Extension.browser.runtime.onConnect.addListener(function (extensionPort) {
 	*
 	**/
 
-
 	extensionPort.onMessage.addListener(function (message, sender, sendResponse) {
 		/**
 		*** Manage popup page response.
@@ -71,7 +69,6 @@ Extension.browser.runtime.onConnect.addListener(function (extensionPort) {
 		extensionPort.postMessage({
 			copies: Extension.copies.set() });		
 	});
-
 
 	extensionPort.onDisconnect.addListener(function (sender) {
 		/**
