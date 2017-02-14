@@ -8,11 +8,7 @@ class Component {
 
 		a = a.map(function (i) { return i.replace(/[^a-zA-Z\-]/gi, '').split(/\-|(?=[A-Z])/g); });
 
-		console.log(a[0])
-
 		a = [].concat.apply([], a).filter(function (i) { return /\S/.test(i); })
-
-		console.log(a)
 
 		a = a.length && a.length > 1 ? a :  ['custom', 'element'];
 
