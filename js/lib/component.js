@@ -4,6 +4,11 @@ class Component extends HTMLElement {
 
 		return window.customElements.get(String(name));
 	}
+
+	static Defined (name) {
+
+		return !document.createElement(String(name)) instanceof HTMLUnknownElement ? true : false;
+	}
 	
 	static Name () {
 
@@ -27,20 +32,13 @@ class Component extends HTMLElement {
 
 		let name = Component.Name.apply(null, a.filter(function (i) { if (typeof i === 'string') return i; }));
 
-		let config = a.reduce(function(result, current) {
-			for (let key in current)
-				if (current.hasOwnProperty(key)) 
-					result[key] = current[key];
-			
-			return result;
-		}, {});
-
 		let constructor = a.slice(-1)[0];
 
-		constructor = constructor.prototype instanceof HTMLElement ? constructor : class extends HTMLElement { constructor (config) { super(); for (let key in (config = config instanceof Object ? config : {})) this[key] = config[key]; }};
+		constructor = constructor.prototype instanceof HTMLElement ? constructor : class extends HTMLElement {};
 
 		if (!Component.Get(name)) window.customElements.define(name, constructor);
 
 		return document.createElement(name);
 	}
 }
+
