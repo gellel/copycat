@@ -1,15 +1,15 @@
 class Component extends HTMLElement {
 
 	static Get (name) {
-
-		return window.customElements.get(String(name));
+		return window.customElements.get(name.toString());
 	}
 
-	static Defined (name) {
 
-		return !document.createElement(String(name)) instanceof HTMLUnknownElement ? true : false;
+	static Listed (name) {
+		return typeof Component.Get(name) === 'function' ? true : false;
 	}
-	
+
+
 	static Name () {
 
 		let a = Array.prototype.slice.call(arguments);
@@ -34,7 +34,8 @@ class Component extends HTMLElement {
 
 		let constructor = a.slice(-1)[0];
 
-		constructor = constructor.prototype instanceof HTMLElement ? constructor : class extends HTMLElement {};
+		constructor = constructor.prototype instanceof HTMLElement ? 
+			constructor : class extends HTMLElement { constructor () { super(); }};
 
 		if (!Component.Get(name)) window.customElements.define(name, constructor);
 
