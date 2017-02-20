@@ -6,11 +6,11 @@
 	"homepage_url": "https://github.com/gellel/copycat",
 
 	"default_locale": "en",
-	"description": "Copycat stores your copies! Meow!",
+	"description": "CopyCat stores your copies! Meow!",
 
 	"background": {
 		"scripts": [
-			"js/lib/prototypes.js", 
+			"js/prototypes/prototypes.js", 
 			"js/extension/extension.js", 
 			"js/event/event.js"
 		],
@@ -23,7 +23,7 @@
 			"24": "img/png/icon/logo/256/256.png",      
 			"32": "img/png/icon/logo/256/256.png"       
 		},
-		"default_title": "copycat",
+		"default_title": "CopyCat",
 		"default_popup": "index.html"   
 	},
 
@@ -47,7 +47,7 @@
 				"default": "Ctrl+Shift+E",
 				"mac": "Command+Shift+E"
 			},
-			"description": "Copycat collection hotkey."
+			"description": "CopyCat copy command."
 		}
 	},
 

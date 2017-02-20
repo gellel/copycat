@@ -49,9 +49,10 @@ Extension.port.onMessage.addListener(function (message, sender) {
 	*
 	**/
 
-	message.copies = (message.copies instanceof Array ? message.copies :  new Array()).map(JSON.parse);
+	message.copies = (message.copies instanceof Array ? message.copies : new Array()).map(JSON.parse);
 
-	for (let i = 0; i < message.copies.length; i++) Extension.article(document.body, message.copies[i]);
+	for (let i = 0; i < message.copies.length; i++) 
+		console.log(message.copies[i]);
 });
 
 
@@ -65,8 +66,9 @@ Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
 	*
 	**/
 
-	storage.copies = (storage.copies instanceof Array ? storage.copies :  new Array()).map(JSON.parse);
+	storage.copies = (storage.copies instanceof Array ? storage.copies : new Array()).map(JSON.parse);
 
-	for (let i = 0; i < storage.copies.length; i++) Extension.article(document.body, storage.copies[i]);
+	for (let i = 0; i < storage.copies.length; i++)
+		console.log(storage.copies[i]);
 });
 

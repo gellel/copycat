@@ -27,9 +27,15 @@
 		<meta http-equiv="imagetoolbar" content="no">
 		<meta http-equiv="x-dns-prefetch-control" content="off">
 		<link rel="stylesheet" href="css/main.css">
+		<script src="js/prototypes/prototypes.js"></script>
 		<script src="js/extension/extension.js"></script>
-		<script src="js/lib/prototypes.js"></script>
 		<script src="js/popup/popup.js"></script>
 	</head>
-	<body class="vh-xs-13 tp-xs-6 rp-xs-6 bp-xs-6 lp-xs-6" style="background: #fafafa; width: 60rem; box-sizing: border-box;"></body>
+	<body data-grid-assign="base" class="vh-xs-13">
+		<div data-grid-assign="padding" class="tp-xs-6 bp-xs-6">
+			<div data-grid-assign="padding" class="lp-xs-6 rp-xs-6">
+				<section data-app-section="copycat-copies"></section>
+			</div>
+		</div>
+	</body>
 </html>
