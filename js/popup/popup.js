@@ -8,6 +8,13 @@
 *
 **/
 
+document.addEventListener('DOMContentLoaded', function () {
+
+Extension.DOM = {};
+
+
+Extension.DOM.app = document.body.querySelector('[data-app-section="copycat-copies"]');
+
 
 Extension.port = Extension.browser.runtime.connect({ 
 	/**
@@ -72,3 +79,4 @@ Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
 		console.log(storage.copies[i]);
 });
 
+}, false)
