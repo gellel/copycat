@@ -8,12 +8,23 @@
 *
 **/
 
-document.addEventListener('DOMContentLoaded', function () {
-
-Extension.DOM = {};
+Extension.HTML = { copies: document.body.querySelector('[data-app-section="copycat-copies"]') };
 
 
-Extension.DOM.app = document.body.querySelector('[data-app-section="copycat-copies"]');
+Extension.build = {
+
+	copies: function (sequence) {
+
+		sequence = sequence instanceof Object ? sequence : {};
+		
+		sequence.copies = (sequence.copies instanceof Array ? sequence.copies : new Array()).map(JSON.parse);
+
+		for (let i = 0; i < sequence.copies.length; i++) 
+
+			Extension.HTML.copies.appendChild(
+				new Copy(sequence.copies[i]).HTML);
+	}
+};
 
 
 Extension.port = Extension.browser.runtime.connect({ 
@@ -56,10 +67,7 @@ Extension.port.onMessage.addListener(function (message, sender) {
 	*
 	**/
 
-	message.copies = (message.copies instanceof Array ? message.copies : new Array()).map(JSON.parse);
-
-	for (let i = 0; i < message.copies.length; i++) 
-		console.log(message.copies[i]);
+	Extension.build.copies(message);
 });
 
 
@@ -73,10 +81,5 @@ Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
 	*
 	**/
 
-	storage.copies = (storage.copies instanceof Array ? storage.copies : new Array()).map(JSON.parse);
-
-	for (let i = 0; i < storage.copies.length; i++)
-		console.log(storage.copies[i]);
+	Extension.build.copies(storage);
 });
-
-}, false)

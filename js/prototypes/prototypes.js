@@ -123,3 +123,9 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function (callback
     if (callback && typeof callback === "function") callback();
 };
 
+String.prototype.toCapitalCase = function () {
+
+    // @return: @type: @string //
+    return this.charAt(0).toUpperCase() + this.slice(1);;
+};
+
