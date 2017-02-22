@@ -31,6 +31,7 @@ Extension.browser.runtime.onMessage.addListener(function (message, sender, sendR
 		store: false,
 		tab: window.location, 
 		text: window.getSelection().toString(), 
+		title: document.title,
 		meta: (function() {
 			let a = [
 				'keywords', 'description', 'subject', 

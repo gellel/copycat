@@ -15,19 +15,32 @@ class Copy {
 
 		let self = this;
 
-		let e = document.createElement('article').setAttributes({'data-component-name':'copycat-copy'});
+		let e = document.createElement('article');
+
+		e.setAttributes({'data-extension-component':'copycat-copy'});
 
 		e.insertNode('div', {'data-grid-assign':'padding','class':'tp-xs-6 bp-xs-6'}, function (d) {
-			d.insertNode('div',  {'data-grid-assign':'padding','class':'lp-xs-8 rp-xs-8'}, function (d) {
-				d.insertNode('div', {'data-component-section':'copycat-copy-frame'}, function (d) {
+			d.insertNode('div',  {'data-grid-assign':'padding','class':'lp-xs-10 rp-xs-10'}, function (d) {
+				d.insertNode('div', {'data-component-structure':'content-frame'}, function (d) {
 					d.insertNode('div', {'data-component-section':'copycat-copy-main'}, function (d) {
-						d.insertNode('div', {'data-component-section':'copycat-copy-frame'}, function (d) {
-							d.insertNode('p', self.text, {'data-component-section':'copycat-copy-text'})
+						d.insertNode('div', {'data-component-structure':'content-frame'}, function (d) {
+							d.insertNode('hgroup', {'data-component-section':'copycat-copy-head'}, function (h) {
+								h.insertNode('h3', {'data-component-section':'copycat-copy-title'}, function (h) {
+									h.insertNode('span', {'class':'font-xs-6'}, function (s) {
+										s.insertNode('span', self.title);
+									});
+								});
+							});
+							d.insertNode('p', {'data-component-section':'copycat-copy-text'}, function (p) {
+								p.insertNode('span', {'class':'font-xs-8 line-xs-14'}, function (s) {
+									s.insertNode('span', self.text, {'data-component-section':'copycat-copy-str'});
+								});
+							});
 						});
-						d.insertNode('div', {'data-component-section':'copycat-copy-frame'}, function (d) {
+						d.insertNode('div', {'data-component-structure':'content-frame'}, function (d) {
 							d.insertNode('div', {'data-component-section':'copycat-copy-meta'}, function (d) {
 								for (let key in self.meta)
-									d.insertNode('span', key)
+									d.insertNode('span', key);
 							});
 						});
 					});	
@@ -38,16 +51,13 @@ class Copy {
 		return e;
 	}
 
-	/*set sections (lol) {
+	get sections () {
 
-		console.log("SEET SET")
-
-		for (var i = 0, s = {}, c = this.HTML.querySelectorAll('[data-component-section]'), l = c.length; i < l; i++) {
-			s[c[i].dataset.componentSection] = c[i];
-		}
+		for (var i = 0, s = {}, e = this.HTML.querySelectorAll('[data-component-section]'); i < e.length; i++)	
+			Object.assign(s, {[e[i].getAttribute("data-component-section")]: e[i]});
 
 		return s;
-	}*/
+	}
 
 	constructor (config) {
 		for (let key in config)

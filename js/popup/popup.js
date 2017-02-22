@@ -8,7 +8,7 @@
 *
 **/
 
-Extension.HTML = { copies: document.body.querySelector('[data-app-section="copycat-copies"]') };
+Extension.HTML = { copies: document.body.querySelector('[data-extension-app="copycat"]') };
 
 
 Extension.build = {
@@ -20,7 +20,6 @@ Extension.build = {
 		sequence.copies = (sequence.copies instanceof Array ? sequence.copies : new Array()).map(JSON.parse);
 
 		for (let i = 0; i < sequence.copies.length; i++) 
-
 			Extension.HTML.copies.appendChild(
 				new Copy(sequence.copies[i]).HTML);
 	}
