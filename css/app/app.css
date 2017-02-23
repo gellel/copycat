@@ -1,7 +1,7 @@
-[data-extension-component="copycat-copy"] {
+copycat-copy {
 	box-shadow: 0px 5px 20px -10px rgba(0, 0, 0, .5);
 	box-shadow: 0rem 0.5rem 2.0rem -1.0rem rgba(0, 0, 0, .5)
 }
-[data-extension-component="copycat-copy"] [data-component-section="copycat-copy-str"] {
+copycat-copy [data-component-section="copycat-copy-str"] {
 	background-color: pink;
 }
