@@ -25,9 +25,9 @@ Extension.build = {
 
 			let c = document.createElement('copycat-copy');
 
-			c.properties = sequence.copies[i];
-
 			Extension.HTML.copies.appendChild(c);
+
+			c.properties = sequence.copies[i];
 		}
 	}
 };

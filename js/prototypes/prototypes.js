@@ -139,7 +139,7 @@ Element.prototype.removeTextNode = function () {
 
     // @return: @type: @object //
     return this;
-}
+};
 
 String.prototype.toCapitalCase = function () {
 
