@@ -123,6 +123,24 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function (callback
     if (callback && typeof callback === "function") callback();
 };
 
+Element.prototype.removeTextNode = function () {
+
+    arguments = Array.prototype.slice.call(arguments);
+
+    let child = this.firstChild;
+    let nextChild;
+
+    while (child) {
+        nextChild = child.nextSibling;
+        if (child.nodeType == 3) 
+            this.removeChild(child);
+        child = nextChild;
+    }
+
+    // @return: @type: @object //
+    return this;
+}
+
 String.prototype.toCapitalCase = function () {
 
     // @return: @type: @string //
