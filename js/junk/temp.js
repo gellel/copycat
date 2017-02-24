@@ -122,13 +122,17 @@ String.prototype.toCapitalCase = function () {
 class Copy extends HTMLElement {
 
 	static get HTML () {
-		return document.createElement('div').insertNode('div', {'data-grid-assign':'padding','class':'tp-xs-6 bp-xs-6'}, function (d) {
-			d.insertNode('div', {'data-grid-assign':'padding','class':'lp-xs-10 rp-xs-10'}, function (d) {
-				d.insertNode('p', function (p) {
-					p.insertNode('span', function (s) {
-						s.insertNode('span', {'data-section':'', 'data-section-name':'copy-text', 'data-section-method':'SetCopyText'});
+		return document.createElement('div').insertNode('div', {'data-copy-section':'frame-base'}, function (d) {
+			d.insertNode('div', {'data-grid-assign':'padding', 'class':'tp-xs-6 bp-xs-6'}, function (d) {
+				d.insertNode('div', {'data-grid-assign':'padding', 'class':'lp-xs-9 rp-xs-9'}, function (d) {
+					d.insertNode('div', {'data-copy-section':'content-frame'}, function (d) {
+						d.insertNode('p', {'font-xs-8 font-weight-700 line-xs-10'}, function (p) {
+							p.insertNode('span', function (s) {
+								s.insertNode('span', {'data-section':'', 'data-section-name':'copy-text', 'data-section-method':'SetCopyText'});
+							});
+						});
 					});
-				})
+				});
 			});
 		});	
 	}
@@ -168,3 +172,6 @@ class Copy extends HTMLElement {
 customElements.define('copycat-copy', Copy)
 
 var i = document.createElement('copycat-copy')
+
+
+document.body.appendChild(i)

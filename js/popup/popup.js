@@ -25,7 +25,11 @@ Extension.build = {
 
 			let c = document.createElement('copycat-copy');
 
-			c.props = sequence.copies[i];
+
+
+			c.properties = sequence.copies[i];
+
+			console.log(sequence.copies[i], typeof sequence.copies[i]);
 
 			Extension.HTML.copies.appendChild(c);
 		}
