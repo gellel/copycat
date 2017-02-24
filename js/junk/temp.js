@@ -1,14 +1,3 @@
-/**
-*
-* @file: Mozilla and Chrome extension.
-* @version: 1.0.0.0
-* @author: gellel
-* @github: https://github.com/gellel/copycat
-* @copyright: MIT.
-*
-**/
-
-
 Array.prototype.append = function () {
     for (let i = 0, l = arguments.length; i < l; i++) 
         this.push(arguments[i])
@@ -130,60 +119,52 @@ String.prototype.toCapitalCase = function () {
 };
 
 
-
-
 class Copy extends HTMLElement {
 
 	static get HTML () {
 		return document.createElement('div').insertNode('div', {'data-grid-assign':'padding','class':'tp-xs-6 bp-xs-6'}, function (d) {
 			d.insertNode('div', {'data-grid-assign':'padding','class':'lp-xs-10 rp-xs-10'}, function (d) {
-				d.insertNode('div', {'data-component-section':'', 'data-section-name':'text', 'data-component-function':'setText'})
+				d.insertNode('p', function (p) {
+					p.insertNode('span', function (s) {
+						s.insertNode('span', {'data-section':'', 'data-section-name':'copy-text', 'data-section-method':'SetCopyText'});
+					});
+				})
 			});
 		});	
 	}
-	
+
+	static SetCopyText (element, string) {
+		element.insertTextNode(string);
+	}
+
+
 	get sections () {
-		for (let i = 0, e = this.shadowRoot.querySelectorAll('[data-component-section]'); i < e.length; i++) {
-			if (e[i].hasAttribute('data-component-section')) {
+		for (var i = 0, s = {}, e = this.shadowRoot.querySelectorAll('[data-section]'); i < e.length; i++)
+			Object.assign(s, {[e[i].getAttribute('data-section-name').split('-').map(
+				function (str) {return str.toCapitalCase();}).join('')]:e[i]});
 
-				Object.assign(this.__sections__, {
-					get [e[i].getAttribute('data-section-name')] () {
-						return e[i];
-					},
-					set [e[i].getAttribute('data-section-name')] (str) {
-						/** bound to object scope  - need to set to class parent **/
-						this.setText(this[[e[i].getAttribute('data-section-name')]], str);
-					}
-				});
-			}
-		}
-
-		return this.__sections__;
+		return s;
 	}
 
-	set properties (config) {
-		for (let key in config)
-			if (config.hasOwnProperty(key))
-				Object.assign(this.__properties__, {key:config[key]});
-	}
+	set properties (props) {
+		let s = this.sections;
 
-	setText (element, str) {
-		element.innerHTML = str;
+		for (let key in props)
+			if (s.hasOwnProperty(key))
+				if (s[key].dataset.sectionMethod && Copy[s[key].dataset.sectionMethod])
+					Copy[s[key].dataset.sectionMethod](s[key], props[key]);
+
+		return s;
 	}
 
 	constructor () {
 		super();
-
-		this.__properties__ = {};
-		this.__sections__ = {};
 
 		this.attachShadow({mode: 'open'});
 
 		this.shadowRoot.appendChild(Copy.HTML);
 	}
 }
-
-
 customElements.define('copycat-copy', Copy)
 
 var i = document.createElement('copycat-copy')
