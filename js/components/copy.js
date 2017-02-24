@@ -25,7 +25,7 @@ class Copy extends HTMLElement {
 									});
 									g.insertNode('h4', {class:'font-xs-4 font-weight-700'}, function (h) {
 										h.insertNode('span', {class:'line-xs-8'}, function (s) {
-											s.insertNode('span', 'lorem ipsum', {'data-section':'', 'data-section-name':'source'})
+											s.insertNode('span', 'lorem ipsum', {'data-section':'', 'data-section-name':'source', 'data-method':'insert-string'})
 										});
 									});
 								});
@@ -62,10 +62,6 @@ class Copy extends HTMLElement {
 
 	['insert-string'] (element, string) {
 		element.removeTextNode().insertTextNode(string);
-	}
-
-	['insert-meta'] (element, meta) {
-		
 	}
 
 	connectedCallback () {

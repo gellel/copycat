@@ -27,7 +27,14 @@ Extension.build = {
 
 			Extension.HTML.copies.appendChild(c);
 
-			c.properties = sequence.copies[i];
+			//c.properties = sequence.copies[i];
+
+			c.properties = {
+				text:sequence.copies[i].text,
+				title:sequence.copies[i].title,
+				source:sequence.copies[i].meta.description}
+
+			console.log(sequence.copies[i])
 		}
 	}
 };
