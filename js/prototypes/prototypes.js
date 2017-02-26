@@ -68,7 +68,8 @@ Element.prototype.insertNode = function () {
 Element.prototype.insertTextNode = function () {
 
     for (let i = 0, l = arguments.length; i < l; i++)
-        this.appendChild(document.createTextNode(arguments[i].toString()));
+        if (arguments[i]) 
+            this.appendChild(document.createTextNode(arguments[i]));
    
     // @return: @type: @object //
     return this;
