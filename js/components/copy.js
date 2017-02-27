@@ -1,4 +1,4 @@
-/**
+/**	
 *
 * @file: Mozilla and Chrome extension.
 * @version: 1.0.0.0
@@ -13,25 +13,25 @@ class Copy extends HTMLElement {
 	static get HTML () {
 		return document.createElement('div').insertNode('div', {'copycat-contents':''}, function (d) {
 			d.insertNode('div', {'data-grid-assign':'padding', class:'tp-xs-6 bp-xs-6'}, function (d) {
-				d.insertNode('div', {'data-grid-assign':'padding', class:'lp-xs-9 rp-xs-9'}, function (d) {
+				d.insertNode('div', {'data-grid-assign':'padding', class:'lp-xs-6 rp-xs-6'}, function (d) {
 					d.insertNode('div', {'data-copy-section':'content-group'}, function (d) {
-						d.insertNode('div', {'data-copy-section':'content-group'}, function (d) {
-							d.insertNode('div', {'data-copy-section':'main'}, function (d) {
+						d.insertNode('div', {'data-grid-assign':'padding', class:'tp-xs-6 bp-xs-6'}, function (d) {
+							d.insertNode('div', {'data-grid-assign':'padding', class:'lp-xs-9 rp-xs-9'}, function (d) {
 								d.insertNode('hgroup', {'data-copy-section':'content-group', class:'bm-xs-8'}, function (g) {
 									g.insertNode('h3', {class:'font-xs-6 font-weight-bold'}, function (h) {
 										h.insertNode('span', {class:'line-xs-10'}, function (s) {
-											s.insertNode('span', {'data-section':'', 'data-section-name':'title', 'data-method':'insert-string'});
+											s.insertNode('span', 'Lorem Ipsum Dolor Set Amet Aqui. Qauestor Imperium And More.', {'data-section':'', 'data-section-name':'title', 'data-method':'insert-string'});
 										});
 									});
 									g.insertNode('h4', {class:'font-xs-5 font-weight-400'}, function (h) {
 										h.insertNode('span', {class:'line-xs-8'}, function (s) {
-											s.insertNode('span', 'lorem ipsum', {'data-section':'', 'data-section-name':'source', 'data-method':'insert-string'})
+											s.insertNode('span', '@Senate Latium', {'data-section':'', 'data-section-name':'source', 'data-method':'insert-string'});
 										});
 									});
 								});
-								d.insertNode('p', {class:'font-xs-8 font-weight-600'}, function (p) {
+								d.insertNode('p', {class:'font-xs-8 font-weight-400'}, function (p) {
 									p.insertNode('span', {class:'line-xs-14'}, function (s) {
-										s.insertNode('span', {'data-section':'', 'data-section-name':'text', 'data-method':'insert-string', style:'background-color:'+ 'rgba(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + '.15)' +''});
+										s.insertNode('span', {'data-section':'', 'data-section-name':'text', 'data-method':'insert-string'});
 									});
 								});
 							});
@@ -60,8 +60,13 @@ class Copy extends HTMLElement {
 		return s;
 	}
 
-	['insert-string'] (element, args) {
-		element.removeTextNode().insertTextNode(args);
+
+	['insert-string'] (element, string) {
+		element.removeTextNode().insertTextNode(string);
+	}
+
+	['insert-meta'] (element, meta) {
+		
 	}
 
 	connectedCallback () {

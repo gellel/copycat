@@ -30,11 +30,14 @@ Extension.build = {
 			//c.properties = sequence.copies[i];
 
 			c.properties = {
-				text:sequence.copies[i].text,
-				title:sequence.copies[i].title,
-				source:sequence.copies[i].meta.description}
+				text: sequence.copies[i].text,
+				title: sequence.copies[i].title,
+				source: sequence.copies[i].tab.host,
+				meta: sequence.copies[i].meta
+			}
 
 			console.log(sequence.copies[i])
+
 		}
 	}
 };

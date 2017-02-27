@@ -13,6 +13,7 @@ copycat-copy:last-child {
 
 copycat-copy [data-section-name="text"] {
 	background-color: #fff5c0;
+	letter-spacing: 0.05em;
 }
 
 copycat-copy h4 {
