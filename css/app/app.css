@@ -11,7 +11,7 @@ copycat-copy:last-child {
 	margin-bottom: 0;
 }
 
-copycat-copy [data-section-name="text"] {
+copycat-copy [data-section-id="text"] {
 	background-color: #fff5c0;
 	letter-spacing: 0.05em;
 }
