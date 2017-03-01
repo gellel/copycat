@@ -42,21 +42,27 @@ class Copy extends HTMLElement {
 								d.insertNode('hr', {'data-copy-section':'content-break'});
 
 								d.insertNode('div', {'data-copy-section':'content-group'}, function (d) {
-									d.insertNode('div', {'data-grid-assign':'flex', class:'flex-xs dir-xs-row'}, function (d) {
-										d.insertNode('aside', {'data-meta-tag':'','data-meta-key':'sample'}, function (a) {
+									d.insertNode('div', {'data-grid-assign':'flex', class:'flex-xs dir-xs-row wrap-xs-wrap'}, function (d) {
+										d.insertNode('aside', {'data-meta-tag':'','data-meta-key':'sample', style:'background-color:aquamarine;'}, function (a) {
 											a.insertNode('div', {'data-grid-assign':'padding', class:'tp-xs-3 bp-xs-3'}, function (d) {
-												d.insertNode('div', {'data-grid-assign':'padding', class:'lp-xs-6 rp-xs-6'}, function (d) {
+												d.insertNode('div', {'data-grid-assign':'padding', class:'lp-xs-4 rp-xs-4'}, function (d) {
 													d.insertNode('div', {'data-grid-assign':'flex', class:'flex-xs dir-xs-row align-xs-center'}, function (d) {
-														d.insertNode('div', {'data-copy-section':'content-group'}, function (d) {
-															d.insertNode('p', {class:'font-xs-5 font-weight-400'}, function (p) {
+														d.insertNode('div', {'data-copy-section':'content-group', class:'rm-xs-1'}, function (d) {
+															d.insertNode('p', {class:'font-xs-5 font-weight-600'}, function (p) {
 																p.insertNode('span', {class:'line-xs-10'}, function (s) {
-																	s.insertNode('span', 'dank memes');
+																	s.insertNode('span', 'copycat', {style: 'color:rgba(0,0,0,0.65);'});
 																});
 															});
 														});
-														d.insertNode('div', {'data-copy-section':'content-group'}, function (d) {
+														d.insertNode('div', {'data-copy-section':'content-group', class:'lm-xs-1'}, function (d) {
 															d.insertNode('div', {'data-grid-assign':'flex', class:'flex-xs dir-xs-row align-xs-center'}, function (d) {
-																d.insertSvgNode('svg', {width:'10',height:'10'});
+																d.insertSvgNode('svg', {x:'0px', y:'0px', viewBox:'0 0 50 50', style:'enable-background:new 0 0 50 50;', 'xml:space':'preserve', width:'16', height:'16', 'shape-rendering': 'geometricPrecision'}, function (s) {
+																	s.insertSvgNode('circle', {cx:'25', cy:'25', r:'25', style:'fill: rgba(0, 0, 0, 0.15);'});
+																	s.insertSvgNode('polyline', {style:"fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;", points:"16,34 25,25 34,16"})
+																	s.insertSvgNode('polyline', {style:"fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;", points:"16,16 25,25 34,34"});
+																}).addEventListener('click', function () {
+																	a.remove();
+																}, false);
 															});
 														});
 													});
