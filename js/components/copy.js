@@ -97,20 +97,38 @@ class Copy extends HTMLElement {
 		return s;
 	}
 
+	set assign (props) {
+		if (props instanceof Object && Object.keys(props).length)
+			for (let key in props)
+				if (props.hasOwnProperty(key))
+					this.props[key] = props[key];
+
+		return this.props;
+	}
+
+	distribute (props) {
+		this.assign = props;
+
+		this.properties = this.assign;
+	}
+
 
 	['insert-string'] (element, string, args) {
 		element.removeTextNode().insertTextNode(string);
-	}
-
-	['insert-meta'] (element, meta, args) {
-		
 	}
 
 	connectedCallback () {
 		this.appendChild(Copy.HTML);
 	}
 
+	disconnectedCallback () {
+		console.log("%ccopycat says: %cmeow meow!", "color: #b7b7b7; font-style:italic;", "color: #333333; font-weight:400;"); 
+
+	}
+
 	constructor () {
 		super();
+
+		this.props = {};
 	}
 }
