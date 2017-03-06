@@ -10,7 +10,7 @@ class Copy extends HTMLElement {
     }
 
     ['get-component-sections'] () {
-        let s = this.querySelectorAll('[copycat-section]');
+        let s = this.querySelectorAll('[data-copycat-section]');
 
         for (var i = 0, o = {}, l = s.length; i < l; i++)
             if (s[i].hasAttribute('data-copycat-section-id'))
@@ -20,6 +20,8 @@ class Copy extends HTMLElement {
     }
 
     ['propegate-properties'] (properties) {
+        console.log('HELLO WORLD')
+
         /* assert dynamic */
         let s = this['get-component-sections']();
 
@@ -52,10 +54,12 @@ class Copy extends HTMLElement {
     }
 
     connectedCallback () {
+        /* set inner */
         this.appendChild(this['get-component-structure']());
+        /* set properties for sections */
         this['propegate-properties'](this.properties);
 
-        console.log('%ca new CopyCat %cpounces %conto the page!', 'color:#bbcccb;font-style:italic;', 'color:#bbcccb;font-weight:bold;', 'color:#bbcccb;font-style:italic;');
+        console.log('%cA new CopyCat %cpounces %conto the page!', 'color:#bbcccb;font-style:italic;', 'color:#bbcccb;font-weight:bold;', 'color:#bbcccb;font-style:italic;');
     }
 
     constructor () {
