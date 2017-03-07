@@ -1,9 +1,12 @@
 class Copy extends HTMLElement {
 
     ['set-text-nodes'] () {
+        /* element, [strings,..], new String() */
         let a = Array.prototype.slice.call(arguments);
 
         let e = a.shift();
+
+        let j = a.slice(-1)[0] instanceof String ? a.slice(-1)[0].valueOf() : '';
 
         if (e instanceof Element) {
 
@@ -19,8 +22,12 @@ class Copy extends HTMLElement {
 
             a = a.filter(function (i) { if (typeof i === 'string') return i });
 
-            for (let i = 0, l = a.length; i < l; i++)
+            for (let i = 0, l = a.length; i < l; i++){
+                
                 e.appendChild(document.createTextNode(a[i]))
+
+                if (j) e.appendChild(document.createTextNode(j))
+            }
         }
 
         return this;
