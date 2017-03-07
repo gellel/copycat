@@ -1,12 +1,12 @@
 class Copy extends HTMLElement {
 
-    ['set-text-nodes'] () {
+    ['assign-text-nodes'] () {
         /* element, [strings,..], new String() */
         let a = Array.prototype.slice.call(arguments);
 
         let e = a.shift();
 
-        let j = a.slice(-1)[0] instanceof String ? a.slice(-1)[0].valueOf() : '';
+        let j = a.slice(-1)[0] instanceof String ? a.slice(-1)[0].valueOf() : false;
 
         if (e instanceof Element) {
 
@@ -15,14 +15,16 @@ class Copy extends HTMLElement {
 
             while (c) {
                 n = c.nextSibling;
-                if (c.nodeType === 3) 
-                    e.removeChild(c);
+                if (c.nodeType === 3) {
+                   e.removeChild(c);
+                } 
                 c = n;
             }
 
-            a = a.filter(function (i) { if (typeof i === 'string') return i });
+            a = a.filter(function (i) { 
+                if (typeof i === 'string') return i });
 
-            for (let i = 0, l = a.length; i < l; i++){
+            for (let i = 0, l = a.length; i < l; i++) {
                 
                 e.appendChild(document.createTextNode(a[i]))
 
@@ -33,37 +35,50 @@ class Copy extends HTMLElement {
         return this;
     }
 
-    ['set-component-arguments'] (element, parameters) {
-        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element))
-            if (element.hasAttribute('data-component') && parameters instanceof Object)
-                element.setAttribute('data-component-arguments', JSON.stringify(parameters))
+    ['assign-component-arguments'] (e, parameters) {
+        if (this['has-decendant'](e))
+            if (e.hasAttribute('data-component') && parameters instanceof Object)
+                e.setAttribute('data-component-arguments', JSON.stringify(parameters))
 
         return this;
     }
 
-    ['set-component-method'] (element, method) {
-        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element)) 
-            if (element.hasAttribute('data-component') && typeof method === 'string')
+    ['assign-component-method'] (e, method) {
+        if (this['has-decendant'](e)) 
+            if (e.hasAttribute('data-component') && typeof method === 'string')
                 if (this[method] && this[method] instanceof Function)
-                    element.setAttribute('data-component-method', method)
+                    e.setAttribute('data-component-method', method)
 
         return this;
     }
 
-    ['set-component-id'] (element, id) {
-        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element)) 
-            if (element.hasAttribute('data-component') && typeof id === 'string')
-                element.setAttribute('data-component-id', id)
+    ['assign-component-id'] (e, id) {
+        if (this['has-decendant'](e)) 
+            if (e.hasAttribute('data-component') && typeof id === 'string')
+                e.setAttribute('data-component-id', id)
 
         return this;
     }
+
+    ['has-decendant'] (e) {
+        return e.__proto__ instanceof Element && this.contains(e) ? true : false;
+    }
+
+    ['has-assertion'] (e) {
+       return (this['is-component'](e) && e.hasAttribute('data-component-method') ? true : false;
+    }
+    
+    ['is-component'] (e) {
+        return (this['has-decendant'](e) && e.hasAttribute('data-component')) ? true : false;
+    }
+
 
     get ['get-component-structure'] () {
         let e = document.createElement('div');
 
         e.setAttribute('data-component', '');
         e.setAttribute('data-component-id', 'title');
-        e.setAttribute('data-component-method','set-text-nodes');
+        e.setAttribute('data-component-method','assign-text-nodes');
         e.setAttribute('data-component-arguments','hello world');
 
         return e;
@@ -80,9 +95,16 @@ class Copy extends HTMLElement {
     }
 
     ['propegate-properties'] (properties) {
+        let s = this['get-component-sections'];
 
-        /* assert dynamic */
-        console.log('%csections', 'color:red;', this['get-component-sections']);
+        for (let key in s)
+            if (s.hasOwnProperty(key))
+                if (this['has-assertion'](s[key]))
+                    console.log(key, s[key]);
+
+        console.log('%csections', 'color:red;font-weight:bold;', s);
+
+        return this;
     }
 
     set assertProperties (properties) {
@@ -100,12 +122,10 @@ class Copy extends HTMLElement {
                 if (properties.hasOwnProperty(key))
                     this.properties[key] = properties[key];
         
-
         this['propegate-properties'](this.properties);
 
         return this;
     }
-
 
     disconnectedCallback () {
         console.log('%cCopyCat %cflees!', 'color:#bbcccb;font-style:italic;', 'color:#bbcccb;font-weight:bold;');
