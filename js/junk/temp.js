@@ -1,31 +1,62 @@
 class Copy extends HTMLElement {
 
-    ['get-component-structure'] () {
+    ['set-text-nodes'] () {
+        let a = Array.prototype.slice.apply(arguments);
+
+        console.log(a);
+    }
+
+    ['set-component-arguments'] (element, parameters) {
+        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element))
+            if (element.hasAttribute('data-component') && parameters instanceof Object)
+                element.setAttribute('data-component-arguments', JSON.stringify(parameters))
+
+        return this;
+    }
+
+    ['set-component-id'] (element, id) {
+        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element)) 
+            if (element.hasAttribute('data-component') && typeof id === 'string')
+                element.setAttribute('data-component-id', id)
+
+        return this;
+    }
+
+    get ['get-component-structure'] () {
         let e = document.createElement('div');
 
-        e.setAttribute('data-copycat-section', '');
-        e.setAttribute('data-copycat-section-id', 'title');
+        e.setAttribute('data-component', '');
+        e.setAttribute('data-component-id', 'title');
+        e.setAttribute('data-component-uses','set-text-nodes');
+        e.setAttribute('data-component-arguments','hello world');
 
         return e;
     }
 
-    ['get-component-sections'] () {
-        let s = this.querySelectorAll('[data-copycat-section]');
+    get ['get-component-sections'] () {
+        let s = this.querySelectorAll('[data-component]');
 
         for (var i = 0, o = {}, l = s.length; i < l; i++)
-            if (s[i].hasAttribute('data-copycat-section-id'))
-                Object.assign(o, {[s[i].getAttribute('data-copycat-section-id')]:s[i]})
+            if (s[i].hasAttribute('data-component-id'))
+                Object.assign(o, {[s[i].getAttribute('data-component-id')]:s[i]})
 
         return o;
     }
 
     ['propegate-properties'] (properties) {
-        console.log('HELLO WORLD')
 
         /* assert dynamic */
-        let s = this['get-component-sections']();
+        console.log('%csections', 'color:red;', this['get-component-sections']);
+    }
 
-        console.log(s);
+
+    set assertProperties (properties) {
+        if (properties instanceof Object && Object.keys(properties).length)
+            for (let key in properties)
+                if (properties.hasOwnProperty(key))
+                    this.properties[key] = properties[key];
+
+        return this.properties;
     }
 
     propegateProperties (properties) {
@@ -40,14 +71,6 @@ class Copy extends HTMLElement {
         return this;
     }
 
-    set assertProperties (properties) {
-        if (properties instanceof Object && Object.keys(properties).length)
-            for (let key in properties)
-                if (properties.hasOwnProperty(key))
-                    this.properties[key] = properties[key];
-
-        return this.properties;
-    }
 
     disconnectedCallback () {
         console.log('%cCopyCat %cflees!', 'color:#bbcccb;font-style:italic;', 'color:#bbcccb;font-weight:bold;');
@@ -55,7 +78,7 @@ class Copy extends HTMLElement {
 
     connectedCallback () {
         /* set inner */
-        this.appendChild(this['get-component-structure']());
+        this.appendChild(this['get-component-structure']);
         /* set properties for sections */
         this['propegate-properties'](this.properties);
 
@@ -72,5 +95,7 @@ class Copy extends HTMLElement {
 customElements.define('copycat-copy', Copy);
 
 var i = document.createElement('copycat-copy');
+
+if(window.clear) clear();
 
 document.body.appendChild(i);
