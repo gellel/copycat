@@ -1,15 +1,44 @@
 class Copy extends HTMLElement {
 
     ['set-text-nodes'] () {
-        let a = Array.prototype.slice.apply(arguments);
+        let a = Array.prototype.slice.call(arguments);
 
-        console.log(a);
+        let e = a.shift();
+
+        if (e instanceof Element) {
+
+            let c = e.firstChild;
+            let n;
+
+            while (c) {
+                n = c.nextSibling;
+                if (c.nodeType === 3) 
+                    e.removeChild(c);
+                c = n;
+            }
+
+            a = a.filter(function (i) { if (typeof i === 'string') return i });
+
+            for (let i = 0, l = a.length; i < l; i++)
+                e.appendChild(document.createTextNode(a[i]))
+        }
+
+        return this;
     }
 
     ['set-component-arguments'] (element, parameters) {
         if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element))
             if (element.hasAttribute('data-component') && parameters instanceof Object)
                 element.setAttribute('data-component-arguments', JSON.stringify(parameters))
+
+        return this;
+    }
+
+    ['set-component-method'] (element, method) {
+        if (element.__proto__ && element.__proto__ instanceof Element && this.contains(element)) 
+            if (element.hasAttribute('data-component') && typeof method === 'string')
+                if (this[method] && this[method] instanceof Function)
+                    element.setAttribute('data-component-method', method)
 
         return this;
     }
@@ -27,7 +56,7 @@ class Copy extends HTMLElement {
 
         e.setAttribute('data-component', '');
         e.setAttribute('data-component-id', 'title');
-        e.setAttribute('data-component-uses','set-text-nodes');
+        e.setAttribute('data-component-method','set-text-nodes');
         e.setAttribute('data-component-arguments','hello world');
 
         return e;
@@ -48,7 +77,6 @@ class Copy extends HTMLElement {
         /* assert dynamic */
         console.log('%csections', 'color:red;', this['get-component-sections']);
     }
-
 
     set assertProperties (properties) {
         if (properties instanceof Object && Object.keys(properties).length)
@@ -99,3 +127,4 @@ var i = document.createElement('copycat-copy');
 if(window.clear) clear();
 
 document.body.appendChild(i);
+
