@@ -50,10 +50,36 @@ class HTMLComponent extends HTMLElement {
 		return state;
 	}
 
+	propegateProperties () {
+		let s = this.componentAppSections;
+		let p = this.componentAppProperties;
+
+		for (let key in s) 
+			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
+				console.log(s[key])
+	}
+
 	addComponentAppSection (parent, element, attributes) {
 		if (this === parent) return;
 
-		if (parent instanceof Element && this.contains(parent))
+		if (!parent instanceof Element || !this.contains(parent)) return;
+
+		if (!attributes instanceof Object && !typeof attributes.id === 'string') return;
+
+		if (this.querySelector('[data-component-id="' + attributes.id + '"]')) return;
+
+		element = element instanceof Element ? element : 
+			document.createElement((typeof element === 'string' ? element : 'div'));
+
+		element.setAttribute('data-component-section', '');
+
+			for (let key in attributes)
+
+				element.setAttribute('data-component-' + key, attributes[key]);
+
+		parent.appendChild(element);
+
+		return this;
 	}
 
 	addComponentAppState () {
