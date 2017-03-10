@@ -135,6 +135,10 @@ class HTMLComponent extends HTMLElement {
 
 		if (this.onConstruct && this.onConstruct instanceof Function)
 			this.onConstruct();
+
+		this.addEventListener('change', function (e) {
+			console.log(this, e)
+		}, false);
 	}
 }
 
