@@ -130,15 +130,26 @@ class HTMLComponent extends HTMLElement {
 	constructor () {
 		super();
 
+		let self = this;
+
 		Object.assign(this, {__base__:{
-			properties:{}, states:{}}});
+			
+			properties: new Proxy({}, {
+			
+			set: function (obj, prop, value) {
+				
+				if (self.onPropertiesChange) self.onPropertiesChange(prop, value, obj);
+
+				obj[prop] = value;
+
+				return value;
+			}
+		}), states:{}}});
 
 		if (this.onConstruct && this.onConstruct instanceof Function)
 			this.onConstruct();
 
-		this.addEventListener('change', function (e) {
-			console.log(this, e)
-		}, false);
+		
 	}
 }
 
