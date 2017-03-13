@@ -50,7 +50,7 @@ class CopyCat extends HTMLComponent {
 													title = title.replace(/[^a-zA-Z\d\s!@#$%&\*\(\),\.?]/g, '').trim();
 
 													this.removeTextNode().insertTextNode(
-														title ? title : 'This copy has no title.');
+														title ? title : 'Meow! Copy is missing a title.');
 												}
 											});
 										});
