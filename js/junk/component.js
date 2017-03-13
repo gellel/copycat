@@ -50,6 +50,12 @@ class HTMLComponent extends HTMLElement {
 		return state;
 	}
 
+	assertState (state) {
+		this.__base__.states[state] = true;
+
+		return this;
+	}
+
 	propegateProperties () {
 		let s = this.componentAppSections;
 		let p = this.componentAppProperties;
@@ -57,6 +63,8 @@ class HTMLComponent extends HTMLElement {
 		for (let key in s) 
 			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
 				console.log(s[key])
+
+		return this;
 	}
 
 	addComponentAppSection (parent, element, attributes) {
@@ -79,6 +87,19 @@ class HTMLComponent extends HTMLElement {
 
 		parent.appendChild(element);
 
+		return this;
+	}
+
+	removeComponentAppSection (element) {
+		if (element === this) return;
+
+		if (!element instanceof Element || !this.contains(element)) return;
+
+		if (element.hasAttribute('data-component-section'))
+			for (let attribute in element.dataset)
+				if (/component[A-Za-z]+/gi.test(attribute))
+					delete element.dataset[attribute]
+				
 		return this;
 	}
 
@@ -136,20 +157,26 @@ class HTMLComponent extends HTMLElement {
 			__base__: {
 				properties: new Proxy({}, {
 					set: function (obj, prop, value) {
-						if (self.onPropertiesChange) 
+						if (self.onPropertiesChange && self.onStateChange instanceof Function) 
 							self.onPropertiesChange(prop, value, obj);
 						
 						return Object.assign(obj, {[prop]:value});
 					}
 				}), 
-				states: new Object()		
+				states: new Proxy({}, {
+					set: function (obj, state, value) {
+						if (self.onStateChange && self.onStateChange instanceof Function)
+							self.onStateChange(state, value, obj);
+
+						return Object.assign(obj, {[state]:value});
+					}	
+				})
 			}
 		});
 
 		if (this.onConstruct && this.onConstruct instanceof Function)
 			this.onConstruct();
 
-		
 	}
 }
 
