@@ -8,7 +8,6 @@
 *
 **/
 
-customElements.define('copycat-copy', Copy);
 
 Extension.HTML = { copies: document.body.querySelector('[data-extension-app="copycat"]') };
 
@@ -21,24 +20,13 @@ Extension.build = {
 		
 		sequence.copies = (sequence.copies instanceof Array ? sequence.copies : new Array()).map(JSON.parse);
 
-		for (let i = 0; i < sequence.copies.length; i++) {
+		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++) {
 
-			let c = document.createElement('copycat-copy');
-
-			Extension.HTML.copies.appendChild(c);
-
-			//c.properties = sequence.copies[i];
-
-			c.properties = {
-				text: sequence.copies[i].text,
-				title: sequence.copies[i].title,
-				source: sequence.copies[i].tab.host,
-				meta: sequence.copies[i].meta
-			}
-
-			console.log(sequence.copies[i])
+			Extension.HTML.copies.appendChild(
+				document.createElement('copycat-copy').addComponentAppProperties(s[i]));
 
 		}
+
 	}
 };
 

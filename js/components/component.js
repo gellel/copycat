@@ -1,13 +1,3 @@
-/**	
-*
-* @file: Mozilla and Chrome extension.
-* @version: 1.0.0.0
-* @author: gellel
-* @github: https://github.com/gellel/copycat
-* @copyright: MIT.
-*
-**/
-
 class HTMLComponent extends HTMLElement {
 	
 	get componentAppBase () {
@@ -75,10 +65,11 @@ class HTMLComponent extends HTMLElement {
 
 				(function (self, f, key, value) {
 					
-					if (self[f] instanceof Function) self[f](key, value);
+					if (self[f] instanceof Function) self[f](value);
 
-				})(this, s[key].getAttribute('data-component-method'), key, p[key]);
-				
+				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), s[key].getAttribute('data-component-method'), key, p[key]);
+
+
 		return this;
 	}
 
@@ -155,6 +146,9 @@ class HTMLComponent extends HTMLElement {
 	}
 
 	connectedCallback () {
+		for (let i = 0, c = this.children, l = c.length; i < l; i++)
+			this.removeChild(c[i])
+
 		this.appendChild(this.componentAppBase);
 
 		if (this.onConnect && this.onConnect instanceof Function)
@@ -197,5 +191,3 @@ class HTMLComponent extends HTMLElement {
 
 	}
 }
-
-customElements.define('component-element', HTMLComponent);
