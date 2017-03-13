@@ -62,8 +62,13 @@ class HTMLComponent extends HTMLElement {
 
 		for (let key in s) 
 			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
-				console.log(s[key])
 
+				(function (self, f, key, value) {
+					
+					if (self[f] instanceof Function) self[f](key, value);
+
+				})(this, s[key].getAttribute('data-component-method'), key, p[key]);
+				
 		return this;
 	}
 
@@ -93,13 +98,16 @@ class HTMLComponent extends HTMLElement {
 	removeComponentAppSection (element) {
 		if (element === this) return;
 
-		if (!element instanceof Element || !this.contains(element)) return;
+		element = element instanceof Element ? element : 
+			this.querySelector('[data-component-id="' + element.toString() + '"]');
+
+		if (!element || !this.contains(element)) return;
 
 		if (element.hasAttribute('data-component-section'))
 			for (let attribute in element.dataset)
-				if (/component[A-Za-z]+/gi.test(attribute))
-					delete element.dataset[attribute]
-				
+				if (/^component[A-Za-z]+$/gi.test(attribute))
+					delete element.dataset[attribute];
+
 		return this;
 	}
 
