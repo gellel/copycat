@@ -25,6 +25,8 @@ Extension.build = {
 			Extension.HTML.copies.appendChild(
 				document.createElement('copycat-copy').addComponentAppProperties(s[i]));
 
+			console.log(s[i])
+
 		}
 
 	}

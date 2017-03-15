@@ -27,7 +27,8 @@ class CopyCat extends HTMLComponent {
 	}
 
 	onConnect () {
-		console.log('%cA new CopyCat %c' + this.randomConnectVerb +' %conto the page!', 'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
+		console.log('%cA new CopyCat %c' + this.randomConnectVerb +' %conto the page!', 
+			'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
 
 		if (!this.firstChild.insertNode instanceof Function) return;
 
@@ -39,25 +40,45 @@ class CopyCat extends HTMLComponent {
 							d.insertNode('div', {}, function (d) {
 								d.insertNode('hgroup', {}, function (g) {
 									g.insertNode('h4', {}, function (h) {
-										h.insertNode('span', {}, function (s) {
-											s.insertNode('span', {
-												'data-component-section':'', 
-												'data-component-id':'title',
-												'data-component-method':'format-title',
-												'data-component-bind':''
-											}, function (s) {
-												s['format-title'] = function (title) {
-													title = title.replace(/[^a-zA-Z\d\s!@#$%&\*\(\),\.?]/g, '').trim();
-
-													this.removeTextNode().insertTextNode(
-														title ? title : 'Meow! Copy is missing a title.');
-												}
+										h.insertNode('span', {class:'font-xs-6'}, function (s) {
+											s.insertNode('span', {class:'line-xs-10'}, function (s) {
+												s.insertNode('component-data-aside', {
+													'data-component-section':'',
+													'data-component-id':'title',
+													'data-component-method':'format-component-title',
+													'data-component-bind':''
+												}, function (c) {
+													c['format-component-title'] = function (config) {
+														this.removeTextNode().insertTextNode(config);
+													};
+												});
 											});
 										});
 									});
 									g.insertNode('h5', {}, function (h) {
 										h.insertNode('span', {}, function (s) {
-											s.insertNode('span', {});
+											s.insertNode('span', {}, function (s) {
+											});
+										});
+									});
+								});
+							});
+							d.insertNode('div', {}, function (d) {
+								d.insertNode('article', {}, function (a) {
+									a.insertNode('p', {}, function (p) {
+										p.insertNode('span', {class:'font-xs-8'}, function (s) {
+											s.insertNode('span', {class:'line-xs-12'}, function (s) {
+												s.insertNode('component-data-aside', {
+													'data-component-section':'',
+													'data-component-id':'text',
+													'data-component-method':'format-component-text',
+													'data-component-bind':''
+												}, function (c) {
+													c['format-component-text'] = function (config) {
+														this.removeTextNode().insertTextNode(config);
+													};
+												});
+											});
 										});
 									});
 								});
@@ -72,7 +93,8 @@ class CopyCat extends HTMLComponent {
 	}
 
 	onDisconnect () {
-		console.log('%cThe CopyCat %c' + this.randomDisconnectVerb +' %caway', 'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
+		console.log('%cThe CopyCat %c' + this.randomDisconnectVerb +' %caway', 
+			'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
 	}
 
 	constructor () {
