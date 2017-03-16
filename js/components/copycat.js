@@ -10,6 +10,23 @@
 
 class CopyCat extends HTMLComponent {
 
+	get metaCopyClass () {
+		return class Meta extends HTMLComponent {
+
+			onConnect () {
+				if (!this.componentAppAnchor.insertNode instanceof Function) return;
+
+				this.componentAppAnchor.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
+					d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {});
+				});
+			}
+
+			constructor () {
+				super();
+			}
+		}
+	}
+
 	get onConnectVerbs () {
 		return ['pounces', 'jumps', 'walks', 'leaps', 'falls', 'lands'];
 	}
@@ -30,9 +47,9 @@ class CopyCat extends HTMLComponent {
 		console.log('%cA new CopyCat %c' + this.randomConnectVerb +' %conto the page!', 
 			'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
 
-		if (!this.firstChild.insertNode instanceof Function) return;
+		if (!this.componentAppAnchor.insertNode instanceof Function) return;
 
-		this.firstChild.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
+		this.componentAppAnchor.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
 			d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {
 				d.insertNode('div', {}, function (d) {
 					d.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
@@ -50,7 +67,7 @@ class CopyCat extends HTMLComponent {
 												}, function (c) {
 													c['format-component-title'] = function (title) {
 														this.removeTextNode().insertTextNode(
-															title.replace(/[^a-zA-Z\d\s\.,?"'\(\)&$#@!]/g, ''));
+															title.replace(/[^a-zA-Z\d\s\.,\?"'\(\)&$#@!]/g, ''));
 													};
 												});
 											});
@@ -104,7 +121,22 @@ class CopyCat extends HTMLComponent {
 							});
 							d.insertNode('div', {class:'bm-xs-0'}, function (d) {
 								d.insertNode('aside', {}, function (a) {
-									a.insertTextNode('hi');
+									a.insertNode('div', {class:'flex-xs dir-xs-row', 
+										'data-component-section': '',
+										'data-component-id':'meta',
+										'data-component-method':'set-meta-tags',
+										'data-component-bind':''}, function (d) {
+											d['set-meta-tags'] = function (meta) {
+												console.log(meta)
+												let m = [];
+
+												for (let key in meta) {
+													console.log(key)
+												}
+											};
+											//d.insertNode('copycat-copy-meta');
+									});
+									
 								});
 							});
 						});
@@ -123,6 +155,20 @@ class CopyCat extends HTMLComponent {
 
 	constructor () {
 		super();
+
+		this.__cls__ = {
+			meta: this.metaCopyClass
+		};
+
+		for (let key in this.__cls__)
+
+			(function (name, cls) {
+
+				if (customElements.get(name)) return;
+
+				customElements.define(name, cls);
+
+			})([this.constructor.name.toLowerCase(), 'copy', key].join('-'), this.__cls__[key]);
 	}
 }
 

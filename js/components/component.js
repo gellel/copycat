@@ -17,6 +17,12 @@ class HTMLComponent extends HTMLElement {
 		return o;
 	}
 
+	get componentAppAnchor () {
+		let e = this.querySelector('[data-component-base]');
+
+		return e instanceof Element && this.firstChild === e ? e : this.componentAppBase;
+	}
+
 	get componentAppProperties () {
 		return this.__base__.properties;
 	}
