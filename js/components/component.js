@@ -189,5 +189,14 @@ class HTMLComponent extends HTMLElement {
 		if (this.onConstruct && this.onConstruct instanceof Function)
 			this.onConstruct();
 
+		new MutationObserver(function (observations) {
+			observations.forEach(function (change) {
+				if (change.type.includes('childList'))
+					for (let i = 0, c = self.children, l = c.length; i < l; i++)
+						if (!c[i].hasAttribute('data-component-base'))
+							self.removeChild(c[i]);
+			});
+		}).observe(this, {childList:true});
+
 	}
 }
