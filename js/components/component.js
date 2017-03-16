@@ -31,6 +31,11 @@ class HTMLComponent extends HTMLElement {
 		return this.__base__.states;
 	}
 
+	get componentAppConstants () {
+		let c = this.__base__.constants;
+		return c instanceof Object ? c : {};
+	}
+
 	get componentAppState () {
 		for (let key in this.__base__.states)
 			if (this.__base__.states.hasOwnProperty(key))
@@ -149,6 +154,24 @@ class HTMLComponent extends HTMLElement {
 				delete this.__base__.properties[arguments[i]];
 
 		return this;
+	}
+
+	addComponentAppConstants (constants) {
+		if (!this.__base__.constants)
+
+			if (constants instanceof Object && Object.keys(constants).length)
+
+				Object.defineProperty(this.__base__, 'constants', {
+					value: (function (k) {
+					for (let key in constants) 
+						Object.defineProperty(k, key, {
+							value: constants[key], writable: false });
+
+					return k
+
+				})({}), writable: false, enumerable: true });
+
+		return this.__base__.constants;
 	}
 
 	connectedCallback () {
