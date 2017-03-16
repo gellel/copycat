@@ -10,23 +10,6 @@
 
 class CopyCat extends HTMLComponent {
 
-	get metaCopyClass () {
-		return class Meta extends HTMLComponent {
-
-			onConnect () {
-				if (!this.componentAppAnchor.insertNode instanceof Function) return;
-
-				this.componentAppAnchor.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
-					d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {});
-				});
-			}
-
-			constructor () {
-				super();
-			}
-		}
-	}
-
 	get onConnectVerbs () {
 		return ['pounces', 'jumps', 'walks', 'leaps', 'falls', 'lands'];
 	}
@@ -127,8 +110,8 @@ class CopyCat extends HTMLComponent {
 										'data-component-method':'set-meta-tags',
 										'data-component-bind':''}, function (d) {
 											d['set-meta-tags'] = function (meta) {
-												console.log(meta)
-												let m = [];
+
+												let m = this.querySelectorAll('[data-meta-name]');
 
 												for (let key in meta) {
 													console.log(key)
@@ -136,7 +119,6 @@ class CopyCat extends HTMLComponent {
 											};
 											//d.insertNode('copycat-copy-meta');
 									});
-									
 								});
 							});
 						});
@@ -156,19 +138,19 @@ class CopyCat extends HTMLComponent {
 	constructor () {
 		super();
 
-		this.__cls__ = {
-			meta: this.metaCopyClass
-		};
+		this.__cls__ = {};
 
 		for (let key in this.__cls__)
 
-			(function (name, cls) {
+			if (this.__cls__.hasOwnProperty(key))
 
-				if (customElements.get(name)) return;
+				(function (name, cls) {
 
-				customElements.define(name, cls);
+					if (!(name && cls && customElements.get(name))) return;
 
-			})([this.constructor.name.toLowerCase(), 'copy', key].join('-'), this.__cls__[key]);
+					customElements.define(name, cls);
+
+				})([this.constructor.name.toLowerCase(), key].join('-'), this.__cls__[key]);
 	}
 }
 
