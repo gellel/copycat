@@ -52,6 +52,8 @@ Array.prototype.index = function (position) {
 
 Element.prototype.insertNode = function () {
 
+    if (!arguments.length) return this;
+
     arguments = Array.prototype.slice.call(arguments);
 
     let e = this.appendChild(document.createElement(arguments.shift().toString()))
@@ -66,6 +68,8 @@ Element.prototype.insertNode = function () {
 
 
 Element.prototype.insertTextNode = function () {
+   
+    if (!arguments.length) return this;
 
     for (let i = 0, l = arguments.length; i < l; i++)
         if (arguments[i]) 
@@ -77,6 +81,8 @@ Element.prototype.insertTextNode = function () {
 
 
 Element.prototype.insertSvgNode = function () {
+
+    if (!arguments.length) return this;
 
     arguments = Array.prototype.slice.call(arguments);
 
@@ -145,6 +151,6 @@ Element.prototype.removeTextNode = function () {
 String.prototype.toCapitalCase = function () {
 
     // @return: @type: @string //
-    return this.charAt(0).toUpperCase() + this.slice(1);;
+    return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
