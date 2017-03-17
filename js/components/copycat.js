@@ -94,13 +94,9 @@ class CopyCat extends HTMLComponent {
 										'data-component-bind':''}, function (d) {
 											d['set-meta-tags'] = function (meta) {
 
-												let m = this.querySelectorAll('[data-meta-name]');
-
-												for (let key in meta) {
-													console.log(key)
-												}
+												if (customElements.get('copycat-meta'))
+													this.appendChild(document.createElement('copycat-meta').addComponentAppProperties({text:'hello'}))
 											};
-											//d.insertNode('copycat-copy-meta');
 									});
 								});
 							});
@@ -109,9 +105,7 @@ class CopyCat extends HTMLComponent {
 				});
 			});
 		});
-			
-		this.propagateProperties();
-	}
+				}
 
 	constructor () {
 		super();

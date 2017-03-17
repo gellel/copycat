@@ -199,6 +199,8 @@ class HTMLComponent extends HTMLElement {
 
 		if (this.onConnect && this.onConnect instanceof Function)
 			this.onConnect();
+
+		this.propagateProperties();
 	}
 
 	disconnectedCallback () {
