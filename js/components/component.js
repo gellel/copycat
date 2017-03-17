@@ -1,3 +1,13 @@
+/**	
+*
+* @file: Mozilla and Chrome extension.
+* @version: 1.0.0.0
+* @author: gellel
+* @github: https://github.com/gellel/copycat
+* @copyright: MIT.
+*
+**/
+
 class HTMLComponent extends HTMLElement {
 	
 	get componentAppBase () {
@@ -78,7 +88,8 @@ class HTMLComponent extends HTMLElement {
 					
 					if (self[f] instanceof Function) self[f](value);
 
-				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), s[key].getAttribute('data-component-method'), key, p[key]);
+				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), 
+				s[key].getAttribute('data-component-method'), key, p[key]);
 
 
 		return this;
