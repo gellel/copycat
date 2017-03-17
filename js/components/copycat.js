@@ -10,27 +10,10 @@
 
 class CopyCat extends HTMLComponent {
 
-	get onConnectVerbs () {
-		return ['pounces', 'jumps', 'walks', 'leaps', 'falls', 'lands'];
-	}
-
-	get onDisconnectVerbs () {
-		return ['scurries', 'runs', 'leaps', 'hides'];
-	}
-
-	get randomConnectVerb () {
-		return this.onConnectVerbs[Math.floor(Math.random() * this.onConnectVerbs.length)];
-	}
-
-	get randomDisconnectVerb () {
-		return this.onDisconnectVerbs[Math.floor(Math.random() * this.onDisconnectVerbs.length)];
-	}
-
 	onConnect () {
-		console.log('%cA new CopyCat %c' + this.randomConnectVerb +' %conto the page!', 
-			'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
-
-		if (!this.componentAppAnchor.insertNode instanceof Function) return;
+	
+		if (!(Object.keys(this.componentAppProperties).length && this.componentAppAnchor.insertNode instanceof Function))
+			this.deconstructor();
 
 		this.componentAppAnchor.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
 			d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {
@@ -130,27 +113,8 @@ class CopyCat extends HTMLComponent {
 		this.propagateProperties();
 	}
 
-	onDisconnect () {
-		console.log('%cThe CopyCat %c' + this.randomDisconnectVerb +' %caway', 
-			'font-style:italic;color:#dcdcdc;', 'font-weight:bold;color:#dcdcdc;', 'font-style:italic;color:#dcdcdc;');
-	}
-
 	constructor () {
 		super();
-
-		this.__cls__ = {};
-
-		for (let key in this.__cls__)
-
-			if (this.__cls__.hasOwnProperty(key))
-
-				(function (name, cls) {
-
-					if (!(name && cls && customElements.get(name))) return;
-
-					customElements.define(name, cls);
-
-				})([this.constructor.name.toLowerCase(), key].join('-'), this.__cls__[key]);
 	}
 }
 

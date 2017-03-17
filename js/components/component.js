@@ -185,6 +185,12 @@ class HTMLComponent extends HTMLElement {
 		return this.__base__.constants;
 	}
 
+	deconstructor () {
+		if (this.parentElement instanceof Element)
+			if (this.parentElement.contains(this)) 
+				this.parentElement.removeChild(this);
+	}
+
 	connectedCallback () {
 		for (let i = 0, c = this.children, l = c.length; i < l; i++)
 			this.removeChild(c[i])
