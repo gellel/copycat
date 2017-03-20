@@ -8,103 +8,79 @@
 *
 **/
 
-class CopyCat extends CopyCatComponent {
+class Copy extends CopyCat {
 
-	onConnect () {
-	
-		if (!this.componentAppStructured())
-			this.deconstructor();
-
-		this.componentAppAnchor.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
+	onConnect (b) {
+		b.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
 			d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {
 				d.insertNode('div', {}, function (d) {
 					d.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
 						d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {
-							d.insertNode('div', {class:'bm-xs-6'}, function (d) {
-								d.insertNode('hgroup', {}, function (g) {
-									g.insertNode('h4', {class:'bm-xs-2'}, function (h) {
-										h.insertNode('span', {class:'font-xs-8'}, function (s) {
-											s.insertNode('span', {class:'line-xs-10'}, function (s) {
-												s.insertNode('d', {'data-component-section':'', 'data-component-bind':'', 
-													'data-component-id':'title', 'data-component-method':'format-component-title'}, function (d) {
-														d['format-component-title'] = function (title) {
-															this.removeTextNode().insertTextNode(
-																title.replace(/[^a-zA-Z\d\s\.,\?"'\(\)&$#@!]/g, ''));
-														};
+							d.insertNode('div', {}, function (d) {
+								d.insertNode('div', {class:'bm-xs-6'}, function (d) {
+									d.insertNode('hgroup', {}, function (h) {
+										h.insertNode('h4', {class:'bm-xs-2'}, function (h) {
+											h.insertNode('span', {class:'font-xs-8'}, function (s) {
+												s.insertNode('span', {class:'line-xs-10'}, function (s) {
+													s.insertNode('i', {['data-component-section']:'',
+														['data-component-id']:'title',
+														['data-component-method']:'set-title-text',
+														['data-component-bind']:''}, function (i) {
+															i['set-title-text'] = function (title) {
+																this.removeTextNode().insertTextNode(title.replace(/_/g, ' ').replace(/[^a-zA-Z\d\s\.,\?"'\(\)&$#@!]/g, '').replace(/\s\s+/g, ' '));
+															};
+														});
 												});
 											});
 										});
-									});
-									g.insertNode('h5', {class:'bm-xs-0'}, function (h) {
-										h.insertNode('span', {class:'font-xs-7'}, function (s) {
-											s.insertNode('span', {class:'line-xs-10'}, function (s) {
-												s.insertNode('d', {'data-component-section':'', 'data-component-bind':'', 
-													'data-component-id':'tab', 'data-component-method':'format-component-source'}, function (d) {
-														d['format-component-source'] = function (config) {
-
-															let host = config.host;
-
-															let substitute = [config.protocol, /www./g, /:\/\//g];
-
-															for (let i = 0, l = substitute.length; i < l; i++)
-																host = host.replace(substitute[i], '');
-
-															this.removeTextNode().insertTextNode('@'+host);
-														};
-												});
-											});
-										});
-									});
-								});
-							});
-							d.insertNode('div', {class:'bm-xs-6'}, function (d) {
-								d.insertNode('article', {}, function (a) {
-									a.insertNode('p', {class:'font-xs-8'}, function (p) {
-										p.insertNode('span', {class:'font-weight-400'}, function (s) {
-											s.insertNode('span', {class:'line-xs-12'}, function (s) {
-												s.insertNode('d', {'data-component-section':'', 'data-component-bind':'',
-													'data-component-id':'text', 'data-component-method':'format-component-text'}, function (d) {
-														d['format-component-text'] = function (config) {
-															this.removeTextNode().insertTextNode(config);
-														};
+										h.insertNode('h5', {class:'bm-xs-0'}, function (h) {
+											h.insertNode('span', {class:'font-xs-7'}, function (s) {
+												s.insertNode('span', {class:'line-xs-10'}, function (s) {
+													s.insertNode('i', {['data-component-section']:'',
+														['data-component-id']:'tab',
+														['data-component-method']:'set-source-text',
+														['data-component-bind']:''}, function (i) {
+															i['set-source-text'] = function (tab) {
+																this.removeTextNode().insertTextNode(['@', tab.host].join('').replace(/http:\/\/|https:\/\/|w{3}\.{1}/g, ''));
+															};
+														});
 												});
 											});
 										});
 									});
 								});
-							});
-							d.insertNode('div', {class:'bm-xs-0'}, function (d) {
-									
-								d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-stretch justify-xs-between'}, function (d) {
-									
-									d.insertNode('div', {
-										'data-component-section':'', 'data-component-bind':'', 'data-component-id':'meta', 'data-component-method':'set-meta-tags'}, function (d) {
-											d['set-meta-tags'] = function (meta) {
-												if (customElements.get('copycat-meta'))
-													this.appendChild(document.createElement('copycat-meta').addComponentAppProperties({text:'hello'}))
-										};
-									});
-
-									d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-center'}, function (d) {
-										if (customElements.get('copycat-heart')) 
-											d.appendChild(document.createElement('copycat-heart').addComponentAppProperties({color:'red'}));
+								d.insertNode('div', {class:'bm-xs-6'}, function (d) {
+									d.insertNode('article', {}, function (a) {
+										a.insertNode('p', {class:'bm-xs-0'}, function (p) {
+											p.insertNode('span', {class:'font-xs-8 font-weight-400'}, function (s) {
+												s.insertNode('span', {class:'line-xs-10'}, function (s) {
+													s.insertNode('i', {['data-component-section']:'',
+														['data-component-id']:'text',
+														['data-component-method']:'set-copy-text',
+														['data-component-bind']:''}, function (i) {
+															i['set-copy-text'] = function (text) {
+																this.removeTextNode().insertTextNode(text);
+															};
+														});
+												});
+											});
+										});
 									});
 								});
+								d.insertNode('div', {class:'bm-xs-0'}, function (d) {
 
-						
+								});
 							});
 						});
 					});
 				});
 			});
 		});
-				}
+	}
 
 	constructor () {
 		super();
 	}
 }
 
-
-
-customElements.define('copycat-copy', CopyCat);
+customElements.define('copycat-copy', Copy);

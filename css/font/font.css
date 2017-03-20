@@ -829,3 +829,23 @@
 [class*="font"][class*="lowercase"] * {
 	text-transform: lowercase;
 }
+[class*="font"][class*="break-all"],
+[class*="font"][class*="break-all"] * {
+	word-break: break-all;
+}
+[class*="font"][class*="break-word"],
+[class*="font"][class*="break-word"] * {
+	word-break: break-word;
+}
+[class*="font"][class*="break-inherit"],
+[class*="font"][class*="break-inherit"] * {
+	word-break: inherit;
+}
+[class*="font"][class*="break-initial"],
+[class*="font"][class*="break-initial"] * {
+	word-break: initial;
+}
+[class*="font"][class*="break-normal"],
+[class*="font"][class*="break-normal"] * {
+	word-break: normal;
+}

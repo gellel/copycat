@@ -178,7 +178,7 @@ class HTMLComponent extends HTMLElement {
 						Object.defineProperty(k, key, {
 							value: constants[key], writable: false });
 
-					return k
+					return k;
 
 				})({}), writable: false, enumerable: true });
 
@@ -186,26 +186,36 @@ class HTMLComponent extends HTMLElement {
 	}
 
 	deconstructor () {
-		if (this.parentElement instanceof Element)
-			if (this.parentElement.contains(this)) 
-				this.parentElement.removeChild(this);
+		let parent = this.parentElement;
+
+		if (parent instanceof Element && parent.contains(this))
+			parent.removeChild(this);
+
+		return parent;
 	}
 
 	connectedCallback () {
+		if (this.onPrepare && this.onPrepare instanceof Function)
+			this.onPrepare();
+
 		for (let i = 0, c = this.children, l = c.length; i < l; i++)
-			this.removeChild(c[i])
+			this.removeChild(c[i]);
 
 		this.appendChild(this.componentAppBase);
 
 		if (this.onConnect && this.onConnect instanceof Function)
-			this.onConnect();
+			this.onConnect(this.firstChild);
 
-		this.propagateProperties();
+		return this.propagateProperties();
 	}
 
 	disconnectedCallback () {
+		let parent = this.parentElement;
+
 		if (this.onDisconnect && this.onDisconnect instanceof Function)
 			this.onDisconnect();
+
+		return parent;
 	}
 
 	constructor () {
