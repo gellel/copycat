@@ -120,6 +120,15 @@ Element.prototype.remove = function (callback) {
 };
 
 
+Element.prototype.removeChildNode = function () {
+    for (let i = 0, c = this.children, l = c.length; i < l; i++)
+            this.removeChild(c[i]);
+
+    // @return: @type: @object //
+    return this;
+}
+
+
 NodeList.prototype.remove = HTMLCollection.prototype.remove = function (callback) {
 
     for (let i = 0, l = this.length; i < l; i++) 

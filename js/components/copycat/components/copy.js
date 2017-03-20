@@ -20,7 +20,7 @@ class Copy extends CopyCat {
 								d.insertNode('div', {class:'bm-xs-6'}, function (d) {
 									d.insertNode('hgroup', {}, function (h) {
 										h.insertNode('h4', {class:'bm-xs-2'}, function (h) {
-											h.insertNode('span', {class:'font-xs-8'}, function (s) {
+											h.insertNode('span', {class:'font-xs-8 font-weight-500'}, function (s) {
 												s.insertNode('span', {class:'line-xs-10'}, function (s) {
 													s.insertNode('i', {['data-component-section']:'',
 														['data-component-id']:'title',
@@ -34,7 +34,7 @@ class Copy extends CopyCat {
 											});
 										});
 										h.insertNode('h5', {class:'bm-xs-0'}, function (h) {
-											h.insertNode('span', {class:'font-xs-7'}, function (s) {
+											h.insertNode('span', {class:'font-xs-7 font-weight-500'}, function (s) {
 												s.insertNode('span', {class:'line-xs-10'}, function (s) {
 													s.insertNode('i', {['data-component-section']:'',
 														['data-component-id']:'tab',
@@ -68,7 +68,17 @@ class Copy extends CopyCat {
 									});
 								});
 								d.insertNode('div', {class:'bm-xs-0'}, function (d) {
-
+									d.insertNode('aside', {}, function (a) {
+										a.insertNode('div', {class:'flex-xs dir-xs-row align-xs-stretch'}, function (d) {
+											d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-center', ['data-component-section']:'',['data-component-id']:'meta',['data-component-method']:'set-meta-tag', ['data-component-bind']:''}, function (d) {
+												d['set-meta-tag'] = function (meta) {
+													if (customElements.get('copycat-meta'))
+													this.removeChildNode().appendChild(
+														document.createElement('copycat-meta').addComponentAppProperties({title:'hello'}));
+												}
+											});
+										});
+									});
 								});
 							});
 						});
