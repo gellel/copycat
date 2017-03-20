@@ -1,7 +1,7 @@
-class CopyMeta extends HTMLComponent {
+class CopyMeta extends CopyCatComponent {
 
 	onConnect () {
-		if (!(Object.keys(this.componentAppProperties).length && this.componentAppAnchor.insertNode instanceof Function))
+		if (!this.componentAppStructured())
 			this.deconstructor();
 
 		let self = this;
@@ -22,7 +22,7 @@ class CopyMeta extends HTMLComponent {
 															'data-component-id':'text','data-component-method':'format-key-title'}, function (d) {
 																d['format-key-title'] = function (title) {
 																	this.removeTextNode().insertTextNode(title);
-																}
+																};
 															});
 													});
 												});
