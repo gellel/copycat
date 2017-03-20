@@ -86,7 +86,8 @@ class CopyCat extends CopyCatComponent {
 									});
 
 									d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-center'}, function (d) {
-										
+										if (customElements.get('copycat-heart')) 
+											d.appendChild(document.createElement('copycat-heart').addComponentAppProperties({color:'red'}));
 									});
 								});
 
