@@ -227,7 +227,13 @@ class HTMLComponent extends HTMLElement {
 			__base__: {
 				properties: new Proxy({}, {
 					set: function (obj, prop, value) {
-						if (self.onPropertiesChange && self.onStateChange instanceof Function) 
+
+						let assign = 'on' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+
+						if (self[assign] && self[assign] instanceof Function)
+							self[assign](value);
+
+						if (self.onPropertiesChange && self.onPropertiesChange instanceof Function) 
 							self.onPropertiesChange(prop, value, obj);
 						
 						return Object.assign(obj, {[prop]:value});
