@@ -8,7 +8,7 @@
 *
 **/
 
-class CopyCat extends HTMLComponent {
+class CopyCat extends HTMLConstruct {
 
 	componentAppStructured () {
 		return Object.keys(this.componentAppProperties).length && 

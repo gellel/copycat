@@ -11,7 +11,7 @@
 class Meta extends CopyCat {
 
 	onMetaChange (meta) {
-		console.log(meta);
+		typeof meta === 'string' ? this.setAttribute('data-meta-key', meta) : this.removeAttribute('data-meta-key');
 	}
 
 	onConnect (b) {
@@ -33,7 +33,7 @@ class Meta extends CopyCat {
 															['data-component-bind']:''}, function (i) {
 																i['set-title-text'] = function (title) {
 																	this.removeTextNode().insertTextNode(
-																		title.replace(/_|:/g, ' ').replace(/[^a-zA-Z\d\s\.,\?"'\(\)&$#@!]/g, '').replace(/\s\s+/g, ' '));
+																		title.replace(/[^a-zA-Z\d\s\.,\?"'\(\)&$#@!:]/g, '').replace(/_|:|\s\s+/g, ' '));
 																};
 															});
 													});
@@ -41,7 +41,12 @@ class Meta extends CopyCat {
 											});
 										});
 									});
-									d.insertNode('div', {});
+									d.insertNode('div', {}, function (d) {
+										d.insertNode('figure', {}, function (f) {
+											if (customElements.get('icon-component'))
+												f.appendChild(document.createElement('icon-component'));
+										});
+									});
 								});
 							})
 						});
