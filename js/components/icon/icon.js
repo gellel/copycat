@@ -10,10 +10,6 @@
 
 class Icon extends HTMLComponent {
 
-	onConnect (b) {
-		console.log(b);
-		b.appendChild(document.createElement('div'))
-	}
 	
 	constructor () {
 		super();

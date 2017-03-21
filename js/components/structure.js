@@ -10,6 +10,10 @@
 
 class HTMLStructure extends HTMLElement {
 
+	get onConnectQueue () {
+		return [function (self) { if (self.componentAppBase instanceof Element && !self.contains(self.componentAppBase)) self.appendChild(self.componentAppBase); }];
+	}
+
 	get componentAppSections () {
 		for (var i = 0, o = {}, s = this.componentAppAnchor.querySelectorAll('[data-component-section'), l = s.length; i < l; i++)
 			if (s[i].hasAttribute('data-component-id'))
@@ -171,16 +175,32 @@ class HTMLStructure extends HTMLElement {
 
 				})({}), writable: false, enumerable: true });
 
-		return this.__base__.constants;
+		return this;
 	}
 
 	disconnectedCallback () {
 		let parent = this.parentElement;
 
-		if (this.onDisconnect && this.onDisconnect instanceof Function)
-			this.onDisconnect();
+		if (this.onDisconnectQueue && this.onDisconnectQueue instanceof Array)
+			for (let i = 0, q = this.onDisconnectQueue, l = q.length; i < l; i++)
+				if (q[i] instanceof Function)
+					q[i](this, i);
 
 		return parent;
+	}
+
+	connectedCallback () {
+		if (this.onPrepareQueue && this.onPrepareQueue instanceof Array)
+			for (let i = 0, q = this.onPrepareQueue, l = q.length; i < l; i++)
+				if (q[i] instanceof Function)
+					q[i](this, i);
+
+		if (this.onConnectQueue && this.onConnectQueue instanceof Array)
+			for (let i = 0, q = this.onConnectQueue, l = q.length; i < l; i++)
+				if (q[i] instanceof Function)
+					q[i](this, i);
+
+		return this.propagateProperties();
 	}
 
 	deconstructor () {
@@ -195,33 +215,33 @@ class HTMLStructure extends HTMLElement {
 	constructor () {
 		super();
 
-		let self = this;
+		(function (self) {
+			Object.assign(self, { 
+				__base__: {
+					properties: new Proxy({}, {
+						set: function (obj, prop, value) {
 
-		Object.assign(this, { 
-			__base__: {
-				properties: new Proxy({}, {
-					set: function (obj, prop, value) {
+							let assign = 'on' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
 
-						let assign = 'on' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+							if (self[assign] && self[assign] instanceof Function)
+								self[assign](value);
 
-						if (self[assign] && self[assign] instanceof Function)
-							self[assign](value);
+							if (self.onPropertiesChange && self.onPropertiesChange instanceof Function) 
+								self.onPropertiesChange(prop, value, obj);
+							
+							return Object.assign(obj, {[prop]:value});
+						}
+					}), 
+					states: new Proxy({}, {
+						set: function (obj, state, value) {
+							if (self.onStateChange && self.onStateChange instanceof Function)
+								self.onStateChange(state, value, obj);
 
-						if (self.onPropertiesChange && self.onPropertiesChange instanceof Function) 
-							self.onPropertiesChange(prop, value, obj);
-						
-						return Object.assign(obj, {[prop]:value});
-					}
-				}), 
-				states: new Proxy({}, {
-					set: function (obj, state, value) {
-						if (self.onStateChange && self.onStateChange instanceof Function)
-							self.onStateChange(state, value, obj);
-
-						return Object.assign(obj, {[state]:value});
-					}	
-				})
-			}
-		});
+							return Object.assign(obj, {[state]:value});
+						}	
+					})
+				}
+			});
+		})(this);		
 	}
 }

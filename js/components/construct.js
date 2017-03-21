@@ -9,7 +9,7 @@
 **/
 
 class HTMLConstruct extends HTMLStructure {
-	
+
 	get componentAppBase () {
 		let e = document.createElement('div');
 		e.setAttribute('data-component-base', '');

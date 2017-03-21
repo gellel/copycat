@@ -10,30 +10,16 @@
 
 class HTMLComponent extends HTMLStructure {
 
+	get onConnectQueue () {
+		return [function (self) { console.log(self); self.propagateProperties() }];
+	}
+
 	get componentAppShadow () {
 		return this.componentAppProperties.shadow;
 	}
 
 	get componentAppAnchor () {
 		return this.componentAppShadow;
-	}
-
-	componentAppStructured () {
-		return Object.keys(this.componentAppProperties).length && 
-			this.componentAppShadow.insertNode instanceof Function;
-	}
-
-	connectedCallback () {
-		if (this.onPrepare && this.onPrepare instanceof Function)
-			this.onPrepare();
-
-		for (let i = 0, c = this.children, l = c.length; i < l; i++)
-			this.removeChild(c[i]);
-
-		if (this.onConnect && this.onConnect instanceof Function)
-			this.onConnect(this.componentAppAnchor);
-
-		return this.propagateProperties();
 	}
 
 	constructor () {
