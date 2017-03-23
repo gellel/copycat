@@ -10,6 +10,26 @@
 
 class HTMLConstruct extends HTMLStructure {
 
+	get onPrepareQueue () {
+		return [this.propagateBase];
+	}
+
+	get onConnectQueue () {
+		return [this.propagateStructure];
+	} 
+
+	get onConstructQueue () {
+		return [function () { new MutationObserver(function (observations) {
+				observations.forEach(function (change) {
+					if (change.type.includes('childList'))
+						for (let i = 0, c = this.children, l = c.length; i < l; i++)
+							if (!c[i].hasAttribute('data-component-base'))
+								this.removeChild(c[i]);
+				}.bind(this));
+			}.bind(this)).observe(this, {childList:true})
+		}];
+	}
+	
 	get componentAppBase () {
 		let e = document.createElement('div');
 		e.setAttribute('data-component-base', '');
@@ -21,37 +41,16 @@ class HTMLConstruct extends HTMLStructure {
 
 	get componentAppAnchor () {
 		let e = this.querySelector('[data-component-base]');
-
 		return e instanceof Element && this.firstChild === e ? e : this.componentAppBase;
 	}
 
-	connectedCallback () {
-		if (this.onPrepare && this.onPrepare instanceof Function)
-			this.onPrepare();
+	propagateBase () {
+		this.appendChild(this.componentAppAnchor);
 
-		for (let i = 0, c = this.children, l = c.length; i < l; i++)
-			this.removeChild(c[i]);
-
-		this.appendChild(this.componentAppBase);
-
-		if (this.onConnect && this.onConnect instanceof Function)
-			this.onConnect(this.firstChild);
-
-		return this.propagateProperties();
+		return this;
 	}
 
 	constructor () {
 		super();
-
-		(function (self) {
-			new MutationObserver(function (observations) {
-				observations.forEach(function (change) {
-					if (change.type.includes('childList'))
-						for (let i = 0, c = self.children, l = c.length; i < l; i++)
-							if (!c[i].hasAttribute('data-component-base'))
-								self.removeChild(c[i]);
-				});
-			}).observe(self, {childList:true});
-		})(this);
 	}
 }

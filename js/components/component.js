@@ -11,15 +11,11 @@
 class HTMLComponent extends HTMLStructure {
 
 	get onConnectQueue () {
-		return [function (self) { console.log(self); self.propagateProperties() }];
-	}
-
-	get componentAppShadow () {
-		return this.componentAppProperties.shadow;
+		return [this.propagateStructure];
 	}
 
 	get componentAppAnchor () {
-		return this.componentAppShadow;
+		return this.shadowRoot;
 	}
 
 	constructor () {

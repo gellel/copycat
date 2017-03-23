@@ -10,16 +10,9 @@
 
 class CopyCat extends HTMLConstruct {
 
-	componentAppStructured () {
-		return Object.keys(this.componentAppProperties).length && 
-			this.componentAppAnchor.insertNode instanceof Function;
-	}
-
-	onPrepare () {
-		if (!this.componentAppStructured())
-			this.deconstructor();
-
-		return this;
+	get SSSSonPrepareQueue () {
+		return [function () { if (!(Object.keys(this.componentAppProperties).length && 
+			this.componentAppAnchor.insertNode instanceof Function)) this.deconstructor(); }];
 	}
 
 	constructor () {

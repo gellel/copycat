@@ -10,8 +10,36 @@
 
 class HTMLStructure extends HTMLElement {
 
-	get onConnectQueue () {
-		return [function (self) { if (self.componentAppBase instanceof Element && !self.contains(self.componentAppBase)) self.appendChild(self.componentAppBase); }];
+	get componentAppPropertiesProxy () {
+		return (function (self) {
+			return new Proxy({}, {
+				set: function (obj, prop, value) {
+
+					let f = 'on' + 'Property' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+
+					if (self[f] && self[f] instanceof Function)
+						self[f](value);
+
+					return Object.assign(obj, {[prop]:value});
+				}
+			});
+		})(this);
+	}
+
+	get componentAppStatesProxy () {
+		return (function (self) {
+			return new Proxy({}, {
+				set: function (obj, state, value) {
+					
+					let f = 'on' + 'State' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+
+					if (self[f] && self[f] instanceof Function)
+						self[f](value);
+
+					return Object.assign(obj, {[state]:value});
+				}	
+			});
+		})(this);
 	}
 
 	get componentAppSections () {
@@ -76,17 +104,14 @@ class HTMLStructure extends HTMLElement {
 
 		for (let key in s) 
 			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
-
 				(function (self, f, key, value) {
-					
 					if (self[f] instanceof Function) self[f](value);
-
 				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), 
 				s[key].getAttribute('data-component-method'), key, p[key]);
 
-
 		return this;
 	}
+
 
 	addComponentAppSection (parent, element, attributes) {
 		if (this === parent) return;
@@ -102,9 +127,8 @@ class HTMLStructure extends HTMLElement {
 
 		element.setAttribute('data-component-section', '');
 
-			for (let key in attributes)
-
-				element.setAttribute('data-component-' + key, attributes[key]);
+		for (let key in attributes)
+			element.setAttribute('data-component-' + key, attributes[key]);
 
 		parent.appendChild(element);
 
@@ -184,21 +208,23 @@ class HTMLStructure extends HTMLElement {
 		if (this.onDisconnectQueue && this.onDisconnectQueue instanceof Array)
 			for (let i = 0, q = this.onDisconnectQueue, l = q.length; i < l; i++)
 				if (q[i] instanceof Function)
-					q[i](this, i);
+					q[i].bind(this)(i);
 
 		return parent;
 	}
 
 	connectedCallback () {
-		if (this.onPrepareQueue && this.onPrepareQueue instanceof Array)
+		if (this.onPrepareQueue && this.onPrepareQueue instanceof Array) 
 			for (let i = 0, q = this.onPrepareQueue, l = q.length; i < l; i++)
-				if (q[i] instanceof Function)
-					q[i](this, i);
+				if (q[i] instanceof Function){
+					console.log(q[i])
+					q[i].bind(this)(i);
+				}
 
 		if (this.onConnectQueue && this.onConnectQueue instanceof Array)
 			for (let i = 0, q = this.onConnectQueue, l = q.length; i < l; i++)
 				if (q[i] instanceof Function)
-					q[i](this, i);
+					q[i].bind(this)(i);
 
 		return this.propagateProperties();
 	}
@@ -215,33 +241,13 @@ class HTMLStructure extends HTMLElement {
 	constructor () {
 		super();
 
-		(function (self) {
-			Object.assign(self, { 
-				__base__: {
-					properties: new Proxy({}, {
-						set: function (obj, prop, value) {
+		Object.assign(this, {__base__: { 
+			properties: this.componentAppPropertiesProxy, 
+			state: this.componentAppStatesProxy }});
 
-							let assign = 'on' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
-
-							if (self[assign] && self[assign] instanceof Function)
-								self[assign](value);
-
-							if (self.onPropertiesChange && self.onPropertiesChange instanceof Function) 
-								self.onPropertiesChange(prop, value, obj);
-							
-							return Object.assign(obj, {[prop]:value});
-						}
-					}), 
-					states: new Proxy({}, {
-						set: function (obj, state, value) {
-							if (self.onStateChange && self.onStateChange instanceof Function)
-								self.onStateChange(state, value, obj);
-
-							return Object.assign(obj, {[state]:value});
-						}	
-					})
-				}
-			});
-		})(this);		
+		if (this.onConstructQueue && this.onConstructQueue instanceof Array)
+			for (let i = 0, q = this.onConstructQueue, l = q.length; i < l; i++)
+				if (q[i] instanceof Function)
+					q[i].bind(this)(i);			
 	}
 }

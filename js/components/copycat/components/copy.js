@@ -10,7 +10,7 @@
 
 class Copy extends CopyCat {
 
-	onConnect (b) {
+	propagateStructure () {
 		(function (self, b){
 			b.insertNode('div', {class:'tp-xs-6 bp-xs-6'}, function (d) {
 				d.insertNode('div', {class:'lp-xs-6 rp-xs-6'}, function (d) {
@@ -21,7 +21,7 @@ class Copy extends CopyCat {
 									d.insertNode('div', {class:'bm-xs-6'}, function (d) {
 										d.insertNode('hgroup', {}, function (h) {
 											h.insertNode('h4', {class:'bm-xs-2'}, function (h) {
-												h.insertNode('span', {class:'font-xs-8 font-weight-500'}, function (s) {
+												h.insertNode('span', {class:'font-xs-8 font-weight-500 font-break-word'}, function (s) {
 													s.insertNode('span', {class:'line-xs-10'}, function (s) {
 														s.insertNode('i', {['data-component-section']:'',
 															['data-component-id']:'title',
@@ -35,7 +35,7 @@ class Copy extends CopyCat {
 												});
 											});
 											h.insertNode('h5', {class:'bm-xs-0'}, function (h) {
-												h.insertNode('span', {class:'font-xs-7 font-weight-500'}, function (s) {
+												h.insertNode('span', {class:'font-xs-7 font-weight-500 font-break-word'}, function (s) {
 													s.insertNode('span', {class:'line-xs-10'}, function (s) {
 														s.insertNode('i', {['data-component-section']:'',
 															['data-component-id']:'tab',
@@ -53,7 +53,7 @@ class Copy extends CopyCat {
 									d.insertNode('div', {class:'bm-xs-6'}, function (d) {
 										d.insertNode('article', {}, function (a) {
 											a.insertNode('p', {class:'bm-xs-0'}, function (p) {
-												p.insertNode('span', {class:'font-xs-8 font-weight-400'}, function (s) {
+												p.insertNode('span', {class:'font-xs-8 font-weight-400 font-break-word'}, function (s) {
 													s.insertNode('span', {class:'line-xs-10'}, function (s) {
 														s.insertNode('i', {['data-component-section']:'',
 															['data-component-id']:'text',
@@ -88,7 +88,7 @@ class Copy extends CopyCat {
 					});
 				});
 			});
-		})(this, b);
+		})(this, this.componentAppAnchor);
 	}
 
 	constructor () {

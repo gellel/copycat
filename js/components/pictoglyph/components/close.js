@@ -8,12 +8,11 @@
 *
 **/
 
-class Icon extends HTMLComponent {
+class Close extends HTMLPictoglpyh {
 
-	
 	constructor () {
 		super();
 	}
 }
 
-customElements.define('icon-component', Icon);
+customElements.define('close-icon', Close);
