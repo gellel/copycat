@@ -10,7 +10,7 @@
 
 class CopyCat extends HTMLConstruct {
 
-	get SSSSonPrepareQueue () {
+	get componentAppPropertiesSet () {
 		return [function () { if (!(Object.keys(this.componentAppProperties).length && 
 			this.componentAppAnchor.insertNode instanceof Function)) this.deconstructor(); }];
 	}

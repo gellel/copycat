@@ -92,27 +92,6 @@ class HTMLStructure extends HTMLElement {
 		return state;
 	}
 
-	assertState (state) {
-		this.__base__.states[state] = true;
-
-		return this;
-	}
-
-	propagateProperties () {
-		let s = this.componentAppSections;
-		let p = this.componentAppProperties;
-
-		for (let key in s) 
-			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
-				(function (self, f, key, value) {
-					if (self[f] instanceof Function) self[f](value);
-				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), 
-				s[key].getAttribute('data-component-method'), key, p[key]);
-
-		return this;
-	}
-
-
 	addComponentAppSection (parent, element, attributes) {
 		if (this === parent) return;
 
@@ -198,6 +177,26 @@ class HTMLStructure extends HTMLElement {
 					return k;
 
 				})({}), writable: false, enumerable: true });
+
+		return this;
+	}
+
+	propagateState (state) {
+		this.__base__.states[state] = true;
+
+		return this;
+	}
+
+	propagateProperties () {
+		let s = this.componentAppSections;
+		let p = this.componentAppProperties;
+
+		for (let key in s) 
+			if (s.hasOwnProperty(key) && p.hasOwnProperty(key))
+				(function (self, f, key, value) {
+					if (self[f] instanceof Function) self[f](value);
+				})((s[key].hasAttribute('data-component-bind') ? s[key] : this), 
+				s[key].getAttribute('data-component-method'), key, p[key]);
 
 		return this;
 	}

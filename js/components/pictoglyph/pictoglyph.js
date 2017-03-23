@@ -11,9 +11,9 @@
 class HTMLPictoglpyh extends HTMLComponent {
 
 	get componentAppBase () {
-		return this.shadowRoot.firstChild instanceof SVGSVGElement ?	
-			this.shadowRoot.firstChild :
-			this.shadowRoot.appendChild(document.createElement('svg'));
+		let e = document.createElement('svg');
+
+		return e;
 	}
 
 	get onConstructQueue () {

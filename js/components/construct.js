@@ -26,7 +26,7 @@ class HTMLConstruct extends HTMLStructure {
 							if (!c[i].hasAttribute('data-component-base'))
 								this.removeChild(c[i]);
 				}.bind(this));
-			}.bind(this)).observe(this, {childList:true})
+			}.bind(this)).observe(this, {childList:true});
 		}];
 	}
 	
@@ -45,7 +45,8 @@ class HTMLConstruct extends HTMLStructure {
 	}
 
 	propagateBase () {
-		this.appendChild(this.componentAppAnchor);
+		if (!this.querySelectorAll('[data-component-base]').length)
+			this.appendChild(this.componentAppAnchor);
 
 		return this;
 	}
