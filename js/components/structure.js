@@ -11,39 +11,36 @@
 class HTMLStructure extends HTMLElement {
 
 	get componentAppPropertiesProxy () {
-		return (function (self) {
-			return new Proxy({}, {
-				set: function (obj, prop, value) {
+		return new Proxy({}, {
+			set: function (obj, prop, value) {
 
-					let f = 'on' + 'Property' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+				let f = 'on' + 'Property' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
 
-					if (self[f] && self[f] instanceof Function)
-						self[f](value);
+				if (this[f] && this[f] instanceof Function)
+					this[f](value);
 
-					return Object.assign(obj, {[prop]:value});
-				}
-			});
-		})(this);
+				return Object.assign(obj, {[prop]:value});
+			}.bind(this)
+		});
 	}
 
 	get componentAppStatesProxy () {
-		return (function (self) {
-			return new Proxy({}, {
-				set: function (obj, state, value) {
-					
-					let f = 'on' + 'State' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+		return new Proxy({}, {
+			set: function (obj, state, value) {
+				
+				let f = 'on' + 'State' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
 
-					if (self[f] && self[f] instanceof Function)
-						self[f](value);
+				if (this[f] && this[f] instanceof Function)
+					this[f](value);
 
-					return Object.assign(obj, {[state]:value});
-				}	
-			});
-		})(this);
+				return Object.assign(obj, {[state]:value});
+			}.bind(this)	
+		});
 	}
 
 	get componentAppSections () {
-		for (var i = 0, o = {}, s = this.componentAppAnchor.querySelectorAll('[data-component-section'), l = s.length; i < l; i++)
+		let s = this.componentAppAnchor.querySelectorAll('[data-component-section');
+		for (var i = 0, o = {}, l = s.length; i < l; i++)
 			if (s[i].hasAttribute('data-component-id'))
 				Object.assign(o, {[s[i].getAttribute('data-component-id')]:s[i]});
 
@@ -90,6 +87,13 @@ class HTMLStructure extends HTMLElement {
 			this.removeAttribute('data-component-state');
 
 		return state;
+	}
+
+	enqueueConstruct () {
+		let q = this.onConstructQueue; 
+		for (let i = 0; i < arguments.length; i++)
+			if (arguments[i] instanceof Function)
+				q.push(arguments[i]);
 	}
 
 	addComponentAppSection (parent, element, attributes) {
@@ -207,7 +211,7 @@ class HTMLStructure extends HTMLElement {
 		if (this.onDisconnectQueue && this.onDisconnectQueue instanceof Array)
 			for (let i = 0, q = this.onDisconnectQueue, l = q.length; i < l; i++)
 				if (q[i] instanceof Function)
-					q[i].bind(this)(i);
+					q[i].bind(this)(this, i);
 
 		return parent;
 	}
@@ -215,15 +219,13 @@ class HTMLStructure extends HTMLElement {
 	connectedCallback () {
 		if (this.onPrepareQueue && this.onPrepareQueue instanceof Array) 
 			for (let i = 0, q = this.onPrepareQueue, l = q.length; i < l; i++)
-				if (q[i] instanceof Function){
-					console.log(q[i])
-					q[i].bind(this)(i);
-				}
+				if (q[i] instanceof Function)
+					q[i].bind(this)(this, i);
 
 		if (this.onConnectQueue && this.onConnectQueue instanceof Array)
 			for (let i = 0, q = this.onConnectQueue, l = q.length; i < l; i++)
 				if (q[i] instanceof Function)
-					q[i].bind(this)(i);
+					q[i].bind(this)(this, i);
 
 		return this.propagateProperties();
 	}
@@ -247,6 +249,6 @@ class HTMLStructure extends HTMLElement {
 		if (this.onConstructQueue && this.onConstructQueue instanceof Array)
 			for (let i = 0, q = this.onConstructQueue, l = q.length; i < l; i++)
 				if (q[i] instanceof Function)
-					q[i].bind(this)(i);			
+					q[i].bind(this)(this, i);			
 	}
 }

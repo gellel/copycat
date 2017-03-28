@@ -11,8 +11,8 @@
 class CopyCat extends HTMLConstruct {
 
 	get componentAppPropertiesSet () {
-		return [function () { if (!(Object.keys(this.componentAppProperties).length && 
-			this.componentAppAnchor.insertNode instanceof Function)) this.deconstructor(); }];
+		return Object.keys(this.componentAppProperties).length && 
+			this.componentAppAnchor.insertNode instanceof Function;
 	}
 
 	constructor () {

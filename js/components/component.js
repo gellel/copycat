@@ -10,6 +10,10 @@
 
 class HTMLComponent extends HTMLStructure {
 
+	get onConstructQueue () {
+		return [function (){this.attachShadow({mode: 'open'})}];
+	}
+
 	get onConnectQueue () {
 		return [this.propagateStructure];
 	}
@@ -20,8 +24,5 @@ class HTMLComponent extends HTMLStructure {
 
 	constructor () {
 		super ();
-
-		this.addComponentAppProperties({ 
-			shadow: this.attachShadow({ mode: 'open' }) });
 	}
 }
