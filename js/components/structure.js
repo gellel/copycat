@@ -14,7 +14,7 @@ class HTMLStructure extends HTMLElement {
 		return new Proxy({}, {
 			set: function (obj, prop, value) {
 
-				let f = 'on' + 'Property' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+				let f = 'onProperty' + (prop.charAt(0).toUpperCase() + prop.slice(1)) + 'Change';
 
 				if (this[f] && this[f] instanceof Function)
 					this[f](value);
@@ -28,7 +28,7 @@ class HTMLStructure extends HTMLElement {
 		return new Proxy({}, {
 			set: function (obj, state, value) {
 				
-				let f = 'on' + 'State' + prop.charAt(0).toUpperCase() + prop.slice(1) + 'Change';
+				let f = 'onState' + (prop.charAt(0).toUpperCase() + prop.slice(1)) + 'Change';
 
 				if (this[f] && this[f] instanceof Function)
 					this[f](value);
@@ -87,13 +87,6 @@ class HTMLStructure extends HTMLElement {
 			this.removeAttribute('data-component-state');
 
 		return state;
-	}
-
-	enqueueConstruct () {
-		let q = this.onConstructQueue; 
-		for (let i = 0; i < arguments.length; i++)
-			if (arguments[i] instanceof Function)
-				q.push(arguments[i]);
 	}
 
 	addComponentAppSection (parent, element, attributes) {
@@ -174,13 +167,28 @@ class HTMLStructure extends HTMLElement {
 
 				Object.defineProperty(this.__base__, 'constants', {
 					value: (function (k) {
-					for (let key in constants) 
-						Object.defineProperty(k, key, {
-							value: constants[key], writable: false });
 
-					return k;
+						for (let key in constants) {
+							
+							//let f = 'constant' + (key.charAt(0).toUpperCase() + key.slice(1));
 
-				})({}), writable: false, enumerable: true });
+							let f = key.toUpperCase();
+
+							if (this[f] === undefined) {
+								Object.defineProperty(k, key, {
+									value: constants[key], writable: false });
+
+								Object.assign(this, {
+									get [f] () {
+										return constants[key];
+									}
+								});
+							}
+						}
+
+						return k;
+
+				}.bind(this))({}, this), writable: false, enumerable: true });
 
 		return this;
 	}
