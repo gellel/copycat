@@ -167,28 +167,13 @@ class HTMLStructure extends HTMLElement {
 
 				Object.defineProperty(this.__base__, 'constants', {
 					value: (function (k) {
+					for (let key in constants) 
+						Object.defineProperty(k, key, {
+							value: constants[key], writable: false });
 
-						for (let key in constants) {
-							
-							//let f = 'constant' + (key.charAt(0).toUpperCase() + key.slice(1));
+					return k;
 
-							let f = key.toUpperCase();
-
-							if (this[f] === undefined) {
-								Object.defineProperty(k, key, {
-									value: constants[key], writable: false });
-
-								Object.assign(this, {
-									get [f] () {
-										return constants[key];
-									}
-								});
-							}
-						}
-
-						return k;
-
-				}.bind(this))({}, this), writable: false, enumerable: true });
+				}.bind(this))({}), writable: false, enumerable: true });
 
 		return this;
 	}

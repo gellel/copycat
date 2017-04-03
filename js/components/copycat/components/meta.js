@@ -25,7 +25,7 @@ class Meta extends CopyCat {
 							d.insertNode('div', {class:'lp-xs-0 rp-xs-0'}, function (d) {
 								d.insertNode('div', {}, function (d) {
 									d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-stretch'}, function (d) {
-										d.insertNode('div', {}, function (d) {
+										d.insertNode('div', {class:'flex-xs align-xs-center'}, function (d) {
 											d.insertNode('hgroup', {}, function (h) {
 												h.insertNode('h4', {}, function (h) {
 													h.insertNode('span', {class:'font-xs-7 font-weight-500'}, function (s) {
@@ -44,7 +44,7 @@ class Meta extends CopyCat {
 												});
 											});
 										});
-										d.insertNode('div', {}, function (d) {
+										d.insertNode('div', {class: 'flex-xs align-xs-center'}, function (d) {
 											d.insertNode('figure', {}, function (f) {
 												if (customElements.get('close-icon'))
 													f.appendChild(document.createElement('close-icon').addComponentAppConstants({ 

@@ -71,12 +71,16 @@ class Copy extends CopyCat {
 									d.insertNode('div', {class:'bm-xs-0'}, function (d) {
 										d.insertNode('aside', {}, function (a) {
 											a.insertNode('div', {class:'flex-xs dir-xs-row align-xs-stretch'}, function (d) {
-												d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-center wrap-xs-wrap', ['data-component-section']:'',['data-component-id']:'meta',['data-component-method']:'set-meta-tag', ['data-component-bind']:''}, function (d) {
-													d['set-meta-tag'] = function (meta) {
-														if (customElements.get('copycat-meta'))
-															for (let key in meta)
-																this.appendChild(
-																	document.createElement('copycat-meta').addComponentAppProperties({meta:key}));
+												d.insertNode('div', {class:'flex-xs dir-xs-row align-xs-center wrap-xs-wrap', 
+													['data-component-section']:'',
+													['data-component-id']:'meta',
+													['data-component-method']:'set-meta-tag', 
+													['data-component-bind']:''}, function (d) {
+														d['set-meta-tag'] = function (meta) {
+															if (customElements.get('copycat-meta'))
+																for (let key in meta)
+																	this.appendChild(
+																		document.createElement('copycat-meta').addComponentAppProperties({meta:meta[key]}));
 													}
 												});
 											});

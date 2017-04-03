@@ -10,20 +10,19 @@
 
 class Close extends HTMLPictoglpyh {
 
-	get componentAppSvgPath () {
+	get componentAppSvgShape () {
 		let e = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-		e.setAttributeNS(null, 'd', this.D);
+		e.setAttributeNS(null, 'd', this.componentAppConstants.d);
 
 		return e;
 	}
 
 	propagateStructure () {
-
 		let b = this.componentAppAnchor;
 		
-		b.appendChild(this.componentAppSvgPath);
+		b.appendChild(this.componentAppSvgShape);
 
-		b.setAttributeNS(null, 'viewBox', this.VIEWBOX);
+		b.setAttribute('viewBox', this.componentAppConstants.viewBox);
 	}
 
 	constructor () {
