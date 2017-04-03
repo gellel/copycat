@@ -30,10 +30,20 @@ class S extends HTMLElement {
 					enumerable: false,
 					value: Object.getPrototypeOf(this.constructor).name
 				},
-				reference: {
+				sectionreference: {
 					writable: false,
 					enumerable: false,
 					value: 'data-component-section'
+				},
+				propertychange: {
+					writable: false,
+					enumerable: false,
+					value: 'onProperty%sChange'
+				},
+				statechange: {
+					writable: false,
+					enumerable: false,
+					value: 'onState%sChange'
 				},
 				sections: { 
 					get: function () {
@@ -41,11 +51,11 @@ class S extends HTMLElement {
 						let a = this.anchor;
 
 						a = a && a.querySelectorAll ? 
-							a.querySelectorAll('[' + this.reference + ']') : [];
+							a.querySelectorAll('[' + this.sectionreference + ']') : [];
 
 						let s = a.length ? Array.prototype.slice.call(a).filter(function (i) { 
 							if (i.getAttribute instanceof Function) 
-								if (i.getAttribute(this.reference)) 
+								if (i.getAttribute(this.sectionreference)) 
 									return i; }.bind(this)) : a;
 
 						for (var i = 0, l = s.length, o = {}; i < l; i++)
@@ -80,12 +90,16 @@ class S extends HTMLElement {
 					value: new Proxy({}, {
 						set: function (obj, prop, value) {
 
-							!function (f) {
-								if (f instanceof Function) f(value);
-							}(this[('on' + 'State' + (prop.charAt(0).toUpperCase() + prop.slice(1)) + 'Change')])
+							let f = this.statechange.replace('%s', 
+								(prop.charAt(0).toUpperCase() + prop.slice(1)));
 
+							f = this.base[f];
+
+							if (f instanceof Function) 
+								f(value);
+							
 							return Object.assign(obj, {[prop]:value}); 
-						}.bind(this) 
+						} 
 					}) 
 				},
 				properties: { 
@@ -94,12 +108,16 @@ class S extends HTMLElement {
 					value: new Proxy({}, {
 						set: function (obj, prop, value) {
 
-							!function (f) {
-								if (f instanceof Function) f(value);
-							}(this[('on' + 'Property' + (prop.charAt(0).toUpperCase() + prop.slice(1)) + 'Change')])
+							let f = this.propertychange.replace('%s', 
+								(prop.charAt(0).toUpperCase() + prop.slice(1)));
 
+							f = this.base[f];
+
+							if (f instanceof Function) 
+								f(value);
+							
 							return Object.assign(obj, {[prop]:value}); 
-						}.bind(this) 
+						} 
 					}) 
 				},
 				queues: {
@@ -185,4 +203,4 @@ var z = document.createElement('div');
 
 i.appendChild(z);
 
-console.log(i.component.sections)
+console.log(i.component)
