@@ -22,7 +22,7 @@ Extension.build = {
 	copies: function (sequence, n) {
 		/* set sequence object. */
 		sequence = sequence instanceof Object ? 
-			sequence : {};
+			sequence : new Object();
 		/* set sequence copies key as array. */
 		sequence.copies = sequence.copies instanceof Array ? 
 			sequence.copies : new Array();
@@ -42,7 +42,7 @@ Extension.build = {
 	store: function (sequence, n) {
 		/* set sequence object. */
 		sequence = sequence instanceof Object ? 
-			sequence : {};
+			sequence : new Object();
 		/* set sequence copies key as array. */
 		sequence.copies = sequence.copies instanceof Array ? 
 			sequence.copies : new Array();
@@ -50,8 +50,7 @@ Extension.build = {
 		if (sequence.copies.length) {
 			/* store copied contents. */
 			chrome.storage.sync.set({[n]: sequence}, function () {
-				console.log('stuff stored.');
-			});
+				console.log('stuff stored.'); });
 		}
 	}
 };
@@ -66,6 +65,7 @@ Extension.port = Extension.browser.runtime.connect({
 	* Connection detached on popup close.
 	*
 	**/
+
 	name: Extension.manifest.name });
 
 
@@ -78,6 +78,7 @@ Extension.port.postMessage(
 	* Expected to occur on popup open only.
 	*
 	**/
+
 	new Object());
 
 
@@ -110,10 +111,10 @@ Extension.port.onMessage.addListener(function (message, sender) {
 		let n = Extension.manifest.name;
 
 		storage[n] = storage[n] instanceof Object ? 
-			storage[n] : {};
+			storage[n] : new Object();
 
 		storage[n].copies instanceof Array ? 
-			storage[n].copies : [];
+			storage[n].copies : new Array();
 
 		Extension.build.copies({copies:[].concat.apply(
 			message.copies, storage[n].copies)}, n);
