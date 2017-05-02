@@ -30,14 +30,21 @@ Extension.build = {
 		sequence.copies = sequence.copies.map(function (i) { 
 			return typeof i === 'string' ? JSON.parse(i) : i; });	
 		/* iterate for copies sequence. */
-		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++)
+		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++) {
+			/* set key id. */
+			s[i].id = (new Date().getTime());
 			/* create copy cat element. */
 			Extension.HTML.copies.appendChild(
 				document.createElement('copycat-element').appendProperties({
 					title: s[i].title, source: s[i].tab.host, text: s[i].text, href: s[i].tab.href }));
+		}
+		
 		/* store keys. */
-		this.store(sequence, n);
-	},
+		Extension.manage.store(sequence, n);
+	}
+};
+
+Extension.manage = {
 
 	store: function (sequence, n) {
 		/* set sequence object. */
@@ -46,12 +53,27 @@ Extension.build = {
 		/* set sequence copies key as array. */
 		sequence.copies = sequence.copies instanceof Array ? 
 			sequence.copies : new Array();
-		/* test length of copies indexes. */
-		if (sequence.copies.length) {
-			/* store copied contents. */
-			chrome.storage.sync.set({[n]: sequence}, function () {
-				console.log('stuff stored.'); });
+		/* store copied contents. */
+		if (sequence.copies.length) 
+			chrome.storage.sync.set({[n]: sequence});
+	},
+
+	remove: function (sequence, id, n) {
+		/* set sequence object. */
+		sequence = sequence instanceof Object ? 
+			sequence : new Object();
+		/* set sequence copies key as array. */
+		sequence.copies = sequence.copies instanceof Array ? 
+			sequence.copies : new Array();
+		
+		let key = undefined;
+
+		for (let i = 0, s = sequence.copies, l = s.length; i < l && !(key); i++) {
+			console.log(s[i].id)
+			if (s[i].id === id) key = i;
 		}
+
+		if (typeof key === 'number') console.log(sequence.copies[key], 'found!')
 	}
 };
 
@@ -109,6 +131,8 @@ Extension.port.onMessage.addListener(function (message, sender) {
 		**/
 
 		let n = Extension.manifest.name;
+
+		Extension.storage = storage;
 
 		storage[n] = storage[n] instanceof Object ? 
 			storage[n] : new Object();
