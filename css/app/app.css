@@ -1,26 +1,23 @@
-copycat-copy,
-copycat-meta,
-copycat-heart {
+copycat-element,
+copycat-title,
+copycat-source,
+copycat-text,
+copycat-input,
+copycat-x {
 	display: block;
 }
 
-copycat-copy {
+copycat-element {
 	background-color: white;
-	box-shadow: 0px 5px 20px -10px rgba(0, 0, 0, .5);
-	box-shadow: 0rem 0.5rem 2.0rem -1.0rem rgba(0, 0, 0, .5);
-	margin-bottom: 20px;
-	margin-bottom: 2rem;
+	box-shadow: 0px 10px 0px -5px rgba(0, 0, 0, .125);
+	box-shadow: 0rem 1rem 0rem -0.5rem rgba(0, 0, 0, .125);
+	transition: background-color linear 0.15s;
 }
 
-copycat-copy:last-child {
+copycat-element:last-child {
 	margin-bottom: 0;
 }
 
-copycat-copy [data-section-id="text"] {
-	background-color: #fff5c0;
-	letter-spacing: 0.05em;
-}
-
-copycat-copy h4 {
-	color: #5f5f5f;
+copycat-element[data-component-state="edit"] {
+	background-color: #eeffd4;
 }

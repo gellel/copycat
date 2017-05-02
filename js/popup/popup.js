@@ -8,27 +8,46 @@
 *
 **/
 
+/* set application size. */
+document.body.style.width = '600px';
 
-Extension.HTML = { copies: document.body.querySelector('[data-extension-app="copycat"]') };
+Extension.HTML = { 
+	/* set application root. */
+	copies: document.body.querySelector(
+		'[data-extension-app="copycat"]') };
 
 
 Extension.build = {
 
 	copies: function (sequence) {
-
+		/* set sequence object. */
 		sequence = sequence instanceof Object ? sequence : {};
-		
-		sequence.copies = (sequence.copies instanceof Array ? sequence.copies : new Array()).map(JSON.parse);
-
-		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++) {
-
+		/* set sequence copies key as array. */
+		sequence.copies = sequence.copies instanceof Array ? sequence.copies : new Array();
+		/* format array contents. */
+		sequence.copies = sequence.copies.map(function (i) { return typeof i === 'string' ? JSON.parse(i) : i; });	
+		/* iterate for copies sequence. */
+		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++)
+			/* create copy cat element. */
 			Extension.HTML.copies.appendChild(
-				document.createElement('copycat-copy').addComponentAppProperties(s[i]));
+				document.createElement('copycat-element').appendProperties({
+					title: s[i].title, source: s[i].tab.host, text: s[i].text, href: s[i].tab.href }));
+		/* store keys. */
+		this.store(sequence);
+	},
 
-			console.log(s[i])
+	store: function (sequence) {
+		/* set sequence object. */
+		sequence = sequence instanceof Object ? sequence : {};
+		/* set sequence copies key as array. */
+		sequence.copies = sequence.copies instanceof Array ? sequence.copies : new Array();
+		/* test length of copies indexes. */
+		if (sequence.copies.length) {
 
+			chrome.storage.sync.set({[Extension.manifest.name]: sequence}, function () {
+				console.log('stuff stored.');
+			});
 		}
-
 	}
 };
 
@@ -73,19 +92,20 @@ Extension.port.onMessage.addListener(function (message, sender) {
 	*
 	**/
 
-	Extension.build.copies(message);
+	Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
+		/**
+		*** Fetch extension storage object.
+		*
+		* Get browser storage data.
+		* Uses extension manifest name for browser extension pairing.
+		* First instance initialisation has empty object returned.
+		*
+		**/
+
+		Extension.build.copies({copies:[].concat.apply(message.copies, storage[Extension.manifest.name].copies)});
+
+	});
 });
 
+	
 
-Extension.browser.storage.sync.get(Extension.manifest.name, function (storage) {
-	/**
-	*** Fetch extension storage object.
-	*
-	* Get browser storage data.
-	* Uses extension manifest name for browser extension pairing.
-	* First instance initialisation has empty object returned.
-	*
-	**/
-
-	Extension.build.copies(storage);
-});
