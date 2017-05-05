@@ -19,61 +19,50 @@ Extension.HTML = {
 
 Extension.build = {
 
-	copies: function (sequence, n) {
-		/* set sequence object. */
-		sequence = sequence instanceof Object ? 
-			sequence : new Object();
-		/* set sequence copies key as array. */
-		sequence.copies = sequence.copies instanceof Array ? 
-			sequence.copies : new Array();
-		/* format array contents. */
-		sequence.copies = sequence.copies.map(function (i) { 
-			return typeof i === 'string' ? JSON.parse(i) : i; });	
-		/* iterate for copies sequence. */
-		for (let i = 0, s = sequence.copies, l = s.length; i < l; i++) {
-			/* set key id. */
-			s[i].id = (new Date().getTime());
-			/* create copy cat element. */
+	copies: function (copies, n) {
+
+		if (!(copies instanceof Array && copies.length)) return;
+
+		for (let i = 0, c = copies, l = c.length; i < l; i++) {
+
+			c[i].id = (new Date().getTime());
+
+			console.log(c[i].id)
+
 			Extension.HTML.copies.appendChild(
 				document.createElement('copycat-element').appendProperties({
-					title: s[i].title, source: s[i].tab.host, text: s[i].text, href: s[i].tab.href }));
+					title: c[i].title, source: c[i].tab.host, text: c[i].text, href: c[i].tab.href }));
 		}
 		
 		/* store keys. */
-		Extension.manage.store(sequence, n);
+		Extension.manage.store(copies, n);
 	}
 };
 
 Extension.manage = {
 
-	store: function (sequence, n) {
-		/* set sequence object. */
-		sequence = sequence instanceof Object ? 
-			sequence : new Object();
-		/* set sequence copies key as array. */
-		sequence.copies = sequence.copies instanceof Array ? 
-			sequence.copies : new Array();
-		/* store copied contents. */
-		if (sequence.copies.length) 
-			chrome.storage.sync.set({[n]: sequence});
+	store: function (copies, n) {
+		if (copies instanceof Array && copies.length)
+			Extension.browser.storage.sync.set({[n]: {copies: copies}});
 	},
 
-	remove: function (sequence, id, n) {
-		/* set sequence object. */
-		sequence = sequence instanceof Object ? 
-			sequence : new Object();
-		/* set sequence copies key as array. */
-		sequence.copies = sequence.copies instanceof Array ? 
-			sequence.copies : new Array();
+	remove: function (copies, id, n) {
+
+		if (!(copies instanceof Array && copies.length && typeof id === 'number')) return;
 		
 		let key = undefined;
 
-		for (let i = 0, s = sequence.copies, l = s.length; i < l && !(key); i++) {
-			console.log(s[i].id)
-			if (s[i].id === id) key = i;
-		}
+		for (let i = 0, c = copies, l = c.length; i < l && !(key); i++)
+			if (c[i].id === id) key = i;
+		
+		if (typeof key === 'number') 
+			console.log(copies[key], 'found!');
+	},
 
-		if (typeof key === 'number') console.log(sequence.copies[key], 'found!')
+	add: function (copies, object, n) {
+		if (copies instanceof Array && copies.length)
+			if (object instanceof Object && Object.keys(object).length)
+				this.store(copies.append(object), n);
 	}
 };
 
@@ -130,18 +119,23 @@ Extension.port.onMessage.addListener(function (message, sender) {
 		*
 		**/
 
+		/* set namespace reference. */
 		let n = Extension.manifest.name;
 
-		Extension.storage = storage;
-
+		/* set object instance. */
 		storage[n] = storage[n] instanceof Object ? 
 			storage[n] : new Object();
 
+		/* set array instance. */
 		storage[n].copies instanceof Array ? 
 			storage[n].copies : new Array();
 
-		Extension.build.copies({copies:[].concat.apply(
-			message.copies, storage[n].copies)}, n);
+		/* merge arrays. */
+		storage[n].copies = [].concat.apply(
+			message.copies.map(JSON.parse), storage[n].copies);
+
+		/* construct content. */
+		Extension.build.copies(storage[n].copies, n);
 
 	});
 });
