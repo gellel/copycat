@@ -45,7 +45,7 @@ Object.defineProperties(app, {
 						value: function (copies, content, namespace) {
 							if (copies instanceof Array)
 								if (content instanceof Object && Object.keys(content).length)
-									this.store(copies.append(content), namespace);
+									this.store(copies.append(content.getAssignedProperties()), namespace);
 						}
 					}
 				})

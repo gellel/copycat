@@ -399,6 +399,20 @@ class HTMLComponent extends HTMLElement {
 						/* @return: @type: @element. */
 						return this;
 					}
+				},
+				getAssignedProperties: {
+					writable: false,
+					enumerable: true,
+					value: function () {
+						/* set component properties. */
+						let p = this.component.properties;
+						/* set object. */
+						let o = new Object();
+						/* iterate for object keys. set keys for copy. */
+						for (let key in p) o[key] = p[key];
+						/* @return: @type: @object. */
+						return o;
+					}
 				}
 			});
 	}
