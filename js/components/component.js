@@ -393,7 +393,7 @@ class HTMLComponent extends HTMLElement {
 					value: function (mode) {
 						/* test shadow is set. */
 						if (!this.shadowRoot) this.attachShadow({ 
-							mode: (typeof mode === 'string' ? (mode === 'open' ? mode : 'closed') : 'open') })
+							mode: (typeof mode === 'string' ? (mode === 'open' ? mode : 'closed') : 'open') });
 						/* set anchor as shadow root. */
 						this.component.anchor = this.shadowRoot;
 						/* @return: @type: @element. */
